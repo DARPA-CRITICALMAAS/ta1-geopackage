@@ -1,6 +1,6 @@
 # TA1 GeoPackage format
 
-This is a starting point for a GeoPackage format for TA1. It is based on the
+This is a starting point for a GeoPackage format for CriticalMAAS TA1. It is based on the
 [TA1 output schemas](https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta10).
 The initial version was created on 2023-12-14 by Daven Quinn (Macrostrat).
 It will be maintained jointly by TA1 and TA4 as the schema is updated.
