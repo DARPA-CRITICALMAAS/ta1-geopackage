@@ -1,0 +1,3 @@
+[submodule "sadisplay"]
+	path = deps/sadisplay
+	url = https://github.com/davenquinn/sadisplay.git

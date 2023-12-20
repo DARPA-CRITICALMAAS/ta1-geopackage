@@ -24,18 +24,18 @@ CREATE TABLE geologic_unit (
   b_interval TEXT, -- geologic time interval, oldest
   t_age REAL, -- Minimum age (Ma)
   b_age REAL, -- Maximum age (Ma)
-  lithology TEXT, -- comma-separated array of lithology descriptors extracted from legend text
+  lithology TEXT -- comma-separated array of lithology descriptors extracted from legend text
 );
 
 CREATE TABLE polygon_type (
-  id: TEXT PRIMARY KEY, -- for internal linking purposes in this file
-  name: TEXT NOT NULL, -- name of the polygon type
-  color: TEXT NOT NULL , -- color extracted from map/legend
-  pattern: TEXT, -- pattern extracted from map/legend
-  abbreviation: TEXT, -- abbreviation extracted from map/legend
-  description: TEXT, -- description text extracted from legend
-  category: TEXT, -- name of containing legend block
-  map_unit: TEXT, -- map unit information
+  id TEXT PRIMARY KEY, -- for internal linking purposes in this file
+  name TEXT NOT NULL, -- name of the polygon type
+  color TEXT NOT NULL , -- color extracted from map/legend
+  pattern TEXT, -- pattern extracted from map/legend
+  abbreviation TEXT, -- abbreviation extracted from map/legend
+  description TEXT, -- description text extracted from legend
+  category TEXT, -- name of containing legend block
+  map_unit TEXT, -- map unit information
   FOREIGN KEY (map_unit) REFERENCES geologic_unit(id),
   FOREIGN KEY (name) REFERENCES enum_polygon_type(name)
 );

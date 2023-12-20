@@ -51,14 +51,13 @@ INSERT INTO enum_line_type (name) VALUES
   ('unknown');
 
 CREATE TABLE enum_line_polarity (
-  value TINYINT PRIMARY KEY, -- for internal linking purposes in this file
+  value TINYINT PRIMARY KEY -- for internal linking purposes in this file
 );
 
 INSERT INTO enum_line_polarity (value) VALUES
   (1), -- positive
   (-1), -- negative
-  (0) -- undirected
-ON CONFLICT IGNORE;
+  (0); -- undirected
 
 
 CREATE TABLE enum_point_type (

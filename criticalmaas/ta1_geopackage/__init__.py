@@ -1,11 +1,16 @@
 from pathlib import Path
 from sqlalchemy import create_engine
+from macrostrat.database import run_sql
 
 
 def create_geopackage(filename: Path | str):
     url = "sqlite:///" + str(filename)
-    db = create_engine(url)
+    engine = create_engine(url)
 
-    db.engine.execute("CREATE TABLE test (id INTEGER PRIMARY KEY, name TEXT);")
+    fixtures = Path(__file__).parent / "fixtures"
+    files = sorted(fixtures.glob("*.sql"))
 
-    return db
+    for file in files:
+        run_sql(engine, file)
+
+    return engine

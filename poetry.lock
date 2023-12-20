@@ -860,17 +860,15 @@ description = "SqlAlchemy schema display script"
 optional = false
 python-versions = "*"
 files = []
-develop = false
+develop = true
 
 [package.dependencies]
 jinja2 = "*"
 SQLAlchemy = ">=0.5"
 
 [package.source]
-type = "git"
-url = "https://github.com/davenquinn/sadisplay.git"
-reference = "master"
-resolved_reference = "b57908e6b78ee2012c9889bf798a08f3f2f81e9f"
+type = "directory"
+url = "deps/sadisplay"
 
 [[package]]
 name = "setuptools"
@@ -1095,4 +1093,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "649dc3e74eb776722623ec5bed6e7e0a8bba014050da4f0a63594ebe836aa3fb"
+content-hash = "1aaf83bc888aa411e7ccd0f5d3453af76982a9feb03fe3cc04b64313dce294b5"
