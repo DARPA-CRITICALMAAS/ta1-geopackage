@@ -6,94 +6,14 @@
 *   Initial version created on 2023-12-14 by Daven Quinn (Macrostrat)
 */
 
-
-CREATE TABLE enum_provenance_type (
-  name TEXT PRIMARY KEY -- name of the provenance type
+CREATE TABLE map (
+  id TEXT PRIMARY KEY, -- for internal linking purposes in this file
+  name TEXT NOT NULL, -- name of the map
+  source_url TEXT NOT NULL, -- URL of the map source (e.g., NGMDB information page)
+  image_url TEXT NOT NULL, -- URL of the map image, as a web-accessible, cloud-optimized GeoTIFF
+  image_width INTEGER NOT NULL, -- width of the map image, in pixels
+  image_height INTEGER NOT NULL -- height of the map image, in pixels
 );
-
-INSERT INTO enum_provenance_type (name) VALUES
-  ('ground truth'),
-  ('human verified'),
-  ('human modified'),
-  ('modelled'),
-  ('raw data'),
-  ('not processed')
-ON CONFLICT IGNORE;
-
-
-CREATE TABLE enum_polygon_type (
-  name TEXT PRIMARY KEY -- name of the polygon type
-);
-
-INSERT INTO enum_polygon_type (name) VALUES
-  ('geologic unit'),
-  ('tailings'),
-  ('outcrop'),
-  ('body of water'),
-  ('other'),
-  ('unknown')
-ON CONFLICT IGNORE;
-
-CREATE TABLE enum_line_type (
-  name TEXT PRIMARY KEY -- name of the line type
-);
-
-INSERT INTO enum_line_type (name) VALUES
-  ('anticline'),
-  ('antiform'),
-  ('normal fault'),
-  ('reverse fault'),
-  ('thrust fault'),
-  ('left-lateral strike-slip fault'),
-  ('right-lateral strike-slip fault'),
-  ('strike-slip fault'),
-  ('fault'),
-  ('lineament'),
-  ('scarp'),
-  ('syncline'),
-  ('synform'),
-  ('bed'),
-  ('crater'),
-  ('caldera'),
-  ('dike'),
-  ('escarpment'),
-  ('fold'),
-  ('other'),
-  ('unknown')
-ON CONFLICT IGNORE;
-
-CREATE TABLE enum_line_polarity (
-  id INTEGER PRIMARY KEY, -- for internal linking purposes in this file
-);
-
-INSERT INTO enum_line_polarity (id) VALUES
-  (1), -- positive
-  (-1), -- negative
-  (0) -- undirected
-ON CONFLICT IGNORE;
-
-
-CREATE TABLE enum_point_type (
-  name TEXT PRIMARY KEY -- name of the point type
-);
-
-INSERT INTO enum_point_type (name) VALUES
-  ('bedding'),
-  ('foliation'),
-  ('lineation'),
-  ('joint'),
-  ('fault'),
-  ('fracture'),
-  ('fold axis'),
-  ('sample location'),
-  ('outcrop'),
-  ('mine site'),
-  ('contact'),
-  ('cleavage'),
-  ('other'),
-  ('unknown')
-ON CONFLICT IGNORE;
-
 
 CREATE TABLE geologic_unit (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
@@ -130,16 +50,6 @@ CREATE TABLE line_type (
 );
 
 
-CREATE TABLE map (
-  id TEXT PRIMARY KEY, -- for internal linking purposes in this file
-  name TEXT NOT NULL, -- name of the map
-  source_url TEXT NOT NULL, -- URL of the map source (e.g., NGMDB information page)
-  image_url TEXT NOT NULL, -- URL of the map image, as a web-accessible, cloud-optimized GeoTIFF
-  image_width INTEGER NOT NULL, -- width of the map image, in pixels
-  image_height INTEGER NOT NULL -- height of the map image, in pixels
-);
-
-
 CREATE TABLE polygon_feature (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
@@ -164,7 +74,7 @@ CREATE TABLE line_feature (
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (type) REFERENCES line_type(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name),
-  FOREIGN KEY (polarity) REFERENCES enum_line_polarity(id)
+  FOREIGN KEY (polarity) REFERENCES enum_line_polarity(value)
 );
 
 
@@ -189,31 +99,13 @@ CREATE TABLE point_feature (
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
 
-/** Extraction identifiers are used to link extractions to the model that produced them. */
-
-CREATE TABLE enum_model_name (
-  name TEXT PRIMARY KEY -- name of the model
-);
-
-INSERT INTO enum_model_name (name) VALUES
-  ('geologic_unit'),
-  ('polygon_feature'),
-  ('polygon_type'),
-  ('line_feature'),
-  ('line_type'),
-  ('point_feature'),
-  ('point_type'),
-  ('cross_section'),
-  ('map_metadata'),
-  ('projection_info');
-
 /** Note: renamed `extraction_identifier` to `extraction_pointer` for clarity */
 CREATE TABLE extraction_pointer (
   id TEXT PRIMARY KEY,
-  model TEXT NOT NULL, -- model name
-  field TEXT NOT NULL, -- field name of the model
-  model_id TEXT NOT NULL, -- ID of the extracted feature
-  FOREIGN KEY (model) REFERENCES enum_model_name(name)
+  table_name TEXT NOT NULL, -- model name
+  column_name TEXT NOT NULL, -- field name of the model
+  record_id TEXT NOT NULL, -- ID of the extracted feature
+  FOREIGN KEY (table_name) REFERENCES enum_table_name(name)
 );
 
 CREATE TABLE confidence_scale (
