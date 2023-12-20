@@ -5,7 +5,7 @@ This is a starting point for a GeoPackage format for TA1. It is based on the
 The initial version was created on 2023-12-14 by Daven Quinn (Macrostrat).
 It will be maintained jointly by TA1 and TA4 as the schema is updated.
 
-![Schema diagram](diagram/schema-diagram.png.png)
+![Schema diagram](diagram/schema-diagram.png)
 
 Better tests, example datasets, and loaders are coming soon. The package will then
 be made available as `criticalmass.ta1_geopackage` on PyPI.
