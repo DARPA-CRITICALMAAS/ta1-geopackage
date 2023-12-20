@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "criticalmaas.ta1-geopackage-io"
+version = "0.1.0"
+description = "GeoPackage schema for validating and storing vector geologic map data produced by computer-vision pipelines"
+authors = ["Daven Quinn <code@davenquinn.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "criticalmaas"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fiona = "^1.8"
+geopandas = "^0.12"
+SQLAlchemy = "^1.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
