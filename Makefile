@@ -7,7 +7,7 @@ install:
 
 
 test:
-	poetry run pytest
+	poetry run pytest criticalmaas/
 
 diagram/schema-diagram.png: create-diagram.py
 	poetry run python $^ $@

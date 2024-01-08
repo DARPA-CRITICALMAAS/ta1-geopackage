@@ -58,6 +58,7 @@ CREATE TABLE polygon_feature (
   type TEXT, -- polygon type information
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
+  FOREIGN KEY (map_id) REFERENCES map(id),
   FOREIGN KEY (type) REFERENCES polygon_type(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
@@ -72,6 +73,7 @@ CREATE TABLE line_feature (
   polarity INTEGER, -- line polarity
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
+  FOREIGN KEY (map_id) REFERENCES map(id),
   FOREIGN KEY (type) REFERENCES line_type(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name),
   FOREIGN KEY (polarity) REFERENCES enum_line_polarity(value)
@@ -95,6 +97,7 @@ CREATE TABLE point_feature (
   dip REAL, -- dip
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
+  FOREIGN KEY (map_id) REFERENCES map(id),
   FOREIGN KEY (type) REFERENCES point_type(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
@@ -201,4 +204,44 @@ CREATE TABLE map_metadata (
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (map_id) REFERENCES map(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
+);
+
+INSERT INTO gpkg_spatial_ref_sys (
+  srs_name, srs_id, organization, organization_coordsys_id, definition, description)
+  VALUES
+  ('WGS 84', 4326, 'EPSG', 4326, 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]', 'WGS 84'),
+  ('Pixel coordinates', 0, 'CRITICALMAAS', 0, 'PIXELCS["Pixel coordinates", ENGRUNITS["m", 1.0]]', 'Pixel coordinates');
+
+INSERT INTO gpkg_contents (table_name, data_type, identifier, description)
+  VALUES
+  ('polygon_feature', 'features', 'polygon_feature', 'Polygon map features'),
+  ('line_feature', 'features', 'line_feature', 'Line map features'),
+  ('point_feature', 'features', 'point_feature', 'Point map features'),
+  ('cross_section', 'features', 'cross_section', 'Lines of section'),
+  ('projection_info', 'features', 'projection_info', 'Map projection information'),
+  ('ground_control_point', 'features', 'ground_control_point', 'Ground control point'),
+  ('page_extraction', 'features', 'page_extraction', 'Page extractions');
+
+INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m)
+  VALUES
+  ('polygon_feature', 'map_geom', 'POLYGON', 4326, 0, 0),
+  ('line_feature', 'map_geom', 'LINESTRING', 4326, 0, 0),
+  ('point_feature', 'map_geom', 'POINT', 4326, 0, 0),
+  ('cross_section', 'line_of_section', 'LINESTRING', 4326, 0, 0),
+  ('ground_control_point', 'map_geom', 'POINT', 4326, 0, 0),
+  ('page_extraction', 'bounds', 'POLYGON', 0, 0, 0);
+  -- ('polygon_feature', 'px_geom', 'POLYGON', 0, 0, 0),
+  -- ('line_feature', 'px_geom', 'LINESTRING', 0, 0, 0),
+  -- ('point_feature', 'px_geom', 'POINT', 0, 0, 0),
+  -- ('cross_section', 'px_geom', 'LINESTRING', 0, 0, 0),
+  -- ('ground_control_point', 'px_geom', 'POINT', 0, 0, 0);
+
+-- Create an empty geometry_columns table so that Geoalchemy2 doesn't complain
+CREATE TABLE geometry_columns (
+  f_table_name TEXT NOT NULL,
+  f_geometry_column TEXT NOT NULL,
+  geometry_type INTEGER NOT NULL,
+  coord_dimension INTEGER NOT NULL,
+  srid INTEGER NOT NULL,
+  geometry_format TEXT NOT NULL
 );

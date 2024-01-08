@@ -1,6 +1,8 @@
 from criticalmaas.ta1_geopackage import create_geopackage
 from sadisplay import describe, render
+from geoalchemy2 import load_spatialite_gpkg
 from sqlalchemy import MetaData
+from sqlalchemy.event import listen
 from pathlib import Path
 from sys import argv
 from subprocess import run
@@ -14,6 +16,7 @@ dotfile = outfile.with_suffix(".dot")
 dotfile.unlink(missing_ok=True)
 
 engine = create_geopackage(pkg)
+
 meta = MetaData()
 meta.reflect(bind=engine)
 

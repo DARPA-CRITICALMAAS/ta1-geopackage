@@ -1,3 +1,9 @@
+"""
+TA1 schemas for GeoPackage output. Right now this is copied from the TA1 schema repository
+(https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta1)
+but we can integrate more directly in the future
+"""
+
 from pydantic import BaseModel, Field
 from typing import Optional, TypeVar
 from enum import Enum
@@ -15,22 +21,22 @@ class ProvenanceType(Enum):
     """
     Type of provenance for data and extractions
     """
-    ground_truth = "ground truth"           # ground truth data/annotations
-    human_verified = "human verified"       # extraction(s) verified by human-in-loop
-    human_modified = "human modified"       # extraction(s) modified by human-in-loop
-    modelled = "modelled"                   # model or algorithm-based predictions
-    raw_data = "raw data"                   # raw data object
-    skipped = "not processed"               # data/extractions were excluded 
+
+    ground_truth = "ground truth"  # ground truth data/annotations
+    human_verified = "human verified"  # extraction(s) verified by human-in-loop
+    human_modified = "human modified"  # extraction(s) modified by human-in-loop
+    modelled = "modelled"  # model or algorithm-based predictions
+    raw_data = "raw data"  # raw data object
+    skipped = "not processed"  # data/extractions were excluded
 
 
 class GeologicUnit(BaseModel):
     """
     Information about a geologic unit synthesized from map legend extractions.
     """
+
     name: str = Field(..., description="Geologic unit name extracted from legend")
-    description: str = Field(
-        ..., description="Map unit description"
-    )
+    description: str = Field(..., description="Map unit description")
     comments: Optional[str] = Field(..., description="Map unit comments")
 
     age_text: str = Field(
@@ -81,10 +87,16 @@ class PolygonFeature(BaseModel):
 
     id: str = Field(..., description="Internal ID")
     map_geom: Polygon = Field(..., description="Polygon geometry, world coordinates")
-    px_geom: PixelBoundingPolygon = Field(..., description="Polygon geometry, pixel coordinates") 
+    px_geom: PixelBoundingPolygon = Field(
+        ..., description="Polygon geometry, pixel coordinates"
+    )
     type: PolygonType = Field(..., description="Polygon type information")
-    confidence: Optional[float] = Field(..., description="Confidence associated with this extraction")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with this extraction"
+    )
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class LineTypeName(Enum):
@@ -110,13 +122,16 @@ class LineTypeName(Enum):
     other = "other"
     unknown = "unknown"
 
+
 class LinePolarity(Enum):
     """
     Positive: ticks are to right of line/directed towards endpoint
     Negative: ticks are to left of line/directed away from endpoint"""
+
     positive = 1
     negative = -1
     undirected = 0
+
 
 class LineType(BaseModel):
     """Line type information."""
@@ -138,16 +153,18 @@ class LineFeature(BaseModel):
 
     id: str = Field(..., description="Internal ID")
     map_geom: Line = Field(..., description="Line geometry, world coordinates")
-    px_geom: Line = Field(..., description="Line geometry, pixel coordinates") 
+    px_geom: Line = Field(..., description="Line geometry, pixel coordinates")
     name: Optional[str] = Field(
         ..., description="Name of this map feature", examples=["San Andreas Fault"]
     )
     type: LineType = Field(..., description="Line type")
-    direction: LinePolarity = Field(
-        ..., description="Line polarity", examples=[1, -1]
+    direction: LinePolarity = Field(..., description="Line polarity", examples=[1, -1])
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with this extraction"
     )
-    confidence: Optional[float] = Field(..., description="Confidence associated with this extraction")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class PointTypeName(Enum):
@@ -165,6 +182,7 @@ class PointTypeName(Enum):
     cleavage = "cleavage"
     other = "other"
     unknown = "unknown"
+
 
 class PointType(BaseModel):
     """Point type information."""
@@ -184,11 +202,15 @@ class PointFeature(BaseModel):
     id: str = Field(..., description="Internal ID")
     type: PointType = Field(..., description="Point type")
     map_geom: Point = Field(..., description="Point geometry, world coordinates")
-    px_geom: Point = Field(..., description="Point geometry, pixel coordinates")    
+    px_geom: Point = Field(..., description="Point geometry, pixel coordinates")
     dip_direction: Optional[float] = Field(..., description="Dip direction")
     dip: Optional[float] = Field(..., description="Dip")
-    confidence: Optional[float] = Field(..., description="Confidence associated with this extraction")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with this extraction"
+    )
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class ExtractionIdentifier(BaseModel):
@@ -240,8 +262,12 @@ class PageExtraction(BaseModel):
         ..., description="Bounds of the page extraction, in pixel coordinates"
     )
     model: Optional[ExtractionIdentifier]
-    confidence: Optional[float] = Field(..., description="Confidence associated with this extraction")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with this extraction"
+    )
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class ModelRun(BaseModel):
@@ -270,8 +296,12 @@ class GroundControlPoint(BaseModel):
     id: str = Field(..., description="Internal ID")
     map_geom: Point = Field(..., description="Point geometry, world coordinates")
     px_geom: Point = Field(..., description="Point geometry, pixel coordinates")
-    confidence: Optional[float] = Field(..., description="Confidence associated with this extraction")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with this extraction"
+    )
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class GeoReferenceMeta(BaseModel):
@@ -280,8 +310,12 @@ class GeoReferenceMeta(BaseModel):
 
     gcps: list[GroundControlPoint] = Field(..., description="Ground control points")
     projection: WKT = Field(..., description="Map projection information")
-    bounds: Polygon = Field(..., description="Polygon boundary of the map area, in world coordinates")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    bounds: Polygon = Field(
+        ..., description="Polygon boundary of the map area, in world coordinates"
+    )
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class CrossSection(BaseModel):
@@ -293,8 +327,12 @@ class CrossSection(BaseModel):
     id: str = Field(..., description="Internal ID")
     label: str = Field(..., description="Cross section label")
     line_of_section: Line = Field(..., description="Geographic line of section")
-    px_geom: PixelBoundingPolygon = Field(..., description="Bounding pixel coordinates of the cross section")
-    confidence: Optional[float] = Field(..., description="Confidence associated with this extraction")
+    px_geom: PixelBoundingPolygon = Field(
+        ..., description="Bounding pixel coordinates of the cross section"
+    )
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with this extraction"
+    )
 
 
 class MapMetadata(BaseModel):
@@ -306,15 +344,21 @@ class MapMetadata(BaseModel):
     year: int = Field(..., description="Map publication year")
     organization: str = Field(..., description="Map organization")
     scale: str = Field(..., description="Map scale")
-    confidence: Optional[float] = Field(..., description="Confidence associated with these extractions")
-    provenance: Optional[ProvenanceType] = Field(..., description="Provenance for this extraction")
+    confidence: Optional[float] = Field(
+        ..., description="Confidence associated with these extractions"
+    )
+    provenance: Optional[ProvenanceType] = Field(
+        ..., description="Provenance for this extraction"
+    )
 
 
 class Map(BaseModel):
     """Basic information about the extracted map."""
 
     name: str = Field(..., description="Map name")
-    id: str = Field(..., description="Unique ID to identify this raster map, such as MD5")
+    id: str = Field(
+        ..., description="Unique ID to identify this raster map, such as MD5"
+    )
     source_url: str = Field(
         ..., description="URL of the map source (e.g., NGMDB information page)"
     )
@@ -327,6 +371,5 @@ class Map(BaseModel):
 
     map_metadata: MapMetadata
     features: MapFeatureExtractions
-    cross_sections: Optional[list[CrossSection]]    
+    cross_sections: Optional[list[CrossSection]]
     projection_info: GeoReferenceMeta
-
