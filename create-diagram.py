@@ -1,11 +1,28 @@
 from criticalmaas.ta1_geopackage import create_geopackage
 from sadisplay import describe, render
-from geoalchemy2 import load_spatialite_gpkg
 from sqlalchemy import MetaData
-from sqlalchemy.event import listen
 from pathlib import Path
 from sys import argv
 from subprocess import run
+
+
+def schema_for_table(table):
+    """Create a fake schema in order to get sadisplay to render the the table in the correct groups"""
+    if table.name == "map":
+        return "map"
+    if table.name == "map_metadata":
+        return "map"
+    if table.name.startswith("enum_"):
+        return "enum"
+    if table.name.startswith("gpkg_"):
+        return "gpkg"
+    for type in ["line", "point", "polygon"]:
+        if table.name.startswith(type):
+            return "extractions"
+    if table.name == "geologic_unit":
+        return "extractions"
+    return None
+
 
 outfile = Path(argv[1])
 
@@ -28,7 +45,15 @@ tables = []
 for table in table_names:
     tbl = meta.tables[table]
     # Patch for sadisplay bug
-    tbl.schema = None
+    tbl.schema = schema_for_table(tbl)
+
+    if tbl.name == "geometry_columns":
+        # this is a duplicate table
+        continue
+
+    if tbl.name.startswith("enum_"):
+        continue
+
     tables.append(tbl)
 
 desc = describe(tables, default_schema="gpkg")

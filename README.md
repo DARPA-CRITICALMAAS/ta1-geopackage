@@ -26,4 +26,4 @@ be made available as `criticalmass.ta1_geopackage` on PyPI.
 
 - `extraction_identifier` -> `extraction_pointer`
 - `model` field has been renamed to `pointer` for clarity for linking models
-- `MapFeatureExtractions` is replaced by many-to-one foreign key relationships
+- `MapFeatureExtractions` is replaced by many-to-one foreign key relationships directly to the `map` table
