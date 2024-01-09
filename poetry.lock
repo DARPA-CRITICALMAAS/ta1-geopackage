@@ -198,21 +198,21 @@ shapely = ["Shapely (>=1.7)"]
 
 [[package]]
 name = "geopandas"
-version = "0.12.2"
+version = "0.14.2"
 description = "Geographic pandas extensions"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "geopandas-0.12.2-py3-none-any.whl", hash = "sha256:0a470e4bf6f5367e6fd83ab6b40405e0b805c8174665bbcb7c4077ed90202912"},
-    {file = "geopandas-0.12.2.tar.gz", hash = "sha256:0acdacddefa176525e4da6d9aeeece225da26055c4becdc6e97cf40fa97c27f4"},
+    {file = "geopandas-0.14.2-py3-none-any.whl", hash = "sha256:0efa61235a68862c1c6be89fc3707cdeba67667d5676bb19e24f3c57a8c2f723"},
+    {file = "geopandas-0.14.2.tar.gz", hash = "sha256:6e71d57b8376f9fdc9f1c3aa3170e7e420e91778de854f51013ae66fd371ccdb"},
 ]
 
 [package.dependencies]
-fiona = ">=1.8"
+fiona = ">=1.8.21"
 packaging = "*"
-pandas = ">=1.0.0"
-pyproj = ">=2.6.1.post1"
-shapely = ">=1.7"
+pandas = ">=1.4.0"
+pyproj = ">=3.3.0"
+shapely = ">=1.8.0"
 
 [[package]]
 name = "greenlet"
@@ -1127,4 +1127,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d0e5a7a52e9fddafc2325309c476654b1f3966713aa194bca8562419d3fd9f38"
+content-hash = "97c03107ad6ef0d2a2214e2425a5b59d1bd2b3b9731136a428efec5172310f46"

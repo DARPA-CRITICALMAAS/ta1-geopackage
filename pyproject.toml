@@ -9,8 +9,8 @@ packages = [{include = "criticalmaas"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fiona = "^1.8"
-geopandas = "^0.12"
+fiona = "^1.9.5"
+geopandas = "^0.14.1"
 "macrostrat.database" = "^3.0.0"
 sadisplay = { path = "./deps/sadisplay", develop = true }
 macrostrat-utils = "^1.2.0"
