@@ -7,8 +7,14 @@ It will be maintained jointly by TA1 and TA4 as the schema is updated.
 
 ![Schema diagram](diagram/schema-diagram.png)
 
-Better tests, example datasets, and loaders are coming soon. The package will then
-be made available as `criticalmass.ta1_geopackage` on PyPI.
+## Ongoing work
+
+- [ ] Tests of dumping geographic data
+- [ ] Helpers for working with multiple projections
+- [ ] Example dataset
+- [ ] Example script for dumping a Macrostrat map
+- [ ] Schema adjustments and improvements.
+- [ ] Make the package available as `criticalmass.ta1_geopackage` on PyPI.
 
 ## Resources
 
