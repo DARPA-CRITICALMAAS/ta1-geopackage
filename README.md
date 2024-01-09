@@ -7,9 +7,24 @@ It will be maintained jointly by TA1 and TA4 as the schema is updated.
 
 ![Schema diagram](diagram/schema-diagram.png)
 
+## Installation
+
+This Package can be installed directly from GitHub:
+
+```bash
+# PIP installation
+pip install git+https://github.com/DARPA-CRITICALMAAS/ta1-geopackage.git
+# Poetry
+poetry add git+https://github.com/DARPA-CRITICALMAAS/ta1-geopackage.git
+# etc. for other package managers
+```
+If you are not using Python, you can load the schema directly from
+the [`criticalmaas/ta1_geopackage/fixtures`](criticalmaas/ta1_geopackage/fixtures) directory,
+and use other tools such as `ogr2ogr` to load data into the database.
+
 ## Ongoing work
 
-- [ ] Tests of dumping geographic data
+- [ ] Tests with geographic data
 - [ ] Helpers for working with multiple projections
 - [ ] Example dataset
 - [ ] Example script for dumping a Macrostrat map
