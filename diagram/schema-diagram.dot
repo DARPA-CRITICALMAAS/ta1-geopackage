@@ -19,10 +19,12 @@ digraph G {
       fontsize = 8
   ]
 
-  extraction_pointer [label=<
+subgraph cluster_1 {
+    color=invis;
+    point_type [label=<
     <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
       <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">extraction_pointer</font>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">point_type</font>
         </td>
       </tr><tr>
       <td align="left" border="0" port="id_in">
@@ -32,56 +34,40 @@ digraph G {
         <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
-      <td align="left" border="0" port="table_name_in">
-        <font face="Fira Code Medium">□ table_name</font>
-      </td>
-      <td align="left" port="table_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="column_name_in">
-        <font face="Fira Code Medium">  column_name</font>
-      </td>
-      <td align="left" port="column_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="record_id_in">
-        <font face="Fira Code Medium">  record_id</font>
-      </td>
-      <td align="left" port="record_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    enum_table_name [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">enum_table_name</font>
-        </td>
-      </tr><tr>
       <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">■ name</font>
+        <font face="Fira Code Medium">□ name</font>
       </td>
       <td align="left" port="name_out">
         <font face="Fira Code Regular">TEXT</font>
       </td>
+    </tr> <tr>
+      <td align="left" border="0" port="description_in">
+        <font face="Fira Code Medium">  description</font>
+      </td>
+      <td align="left" port="description_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
     </tr>
     </table>
     >]
 
-    ground_control_point [label=<
+    point_feature [label=<
     <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
       <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">ground_control_point</font>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">point_feature</font>
         </td>
       </tr><tr>
       <td align="left" border="0" port="id_in">
         <font face="Fira Code Medium">■ id</font>
       </td>
       <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_id_in">
+        <font face="Fira Code Medium">□ map_id</font>
+      </td>
+      <td align="left" port="map_id_out">
         <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
@@ -92,10 +78,31 @@ digraph G {
         <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
+      <td align="left" border="0" port="type_in">
+        <font face="Fira Code Medium">□ type</font>
+      </td>
+      <td align="left" port="type_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
       <td align="left" border="0" port="confidence_in">
         <font face="Fira Code Medium">  confidence</font>
       </td>
       <td align="left" port="confidence_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="dip_in">
+        <font face="Fira Code Medium">  dip</font>
+      </td>
+      <td align="left" port="dip_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="dip_direction_in">
+        <font face="Fira Code Medium">  dip_direction</font>
+      </td>
+      <td align="left" port="dip_direction_out">
         <font face="Fira Code Regular">REAL</font>
       </td>
     </tr> <tr>
@@ -104,13 +111,6 @@ digraph G {
       </td>
       <td align="left" port="map_geom_out">
         <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_id_in">
-        <font face="Fira Code Medium">  map_id</font>
-      </td>
-      <td align="left" port="map_id_out">
-        <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
       <td align="left" border="0" port="px_geom_in">
@@ -126,7 +126,7 @@ digraph G {
     polygon_feature [label=<
     <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
       <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">polygon_feature</font>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">polygon_feature</font>
         </td>
       </tr><tr>
       <td align="left" border="0" port="id_in">
@@ -176,6 +176,757 @@ digraph G {
       </td>
       <td align="left" port="px_geom_out">
         <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    geologic_unit [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">geologic_unit</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="age_text_in">
+        <font face="Fira Code Medium">  age_text</font>
+      </td>
+      <td align="left" port="age_text_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="b_age_in">
+        <font face="Fira Code Medium">  b_age</font>
+      </td>
+      <td align="left" port="b_age_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="b_interval_in">
+        <font face="Fira Code Medium">  b_interval</font>
+      </td>
+      <td align="left" port="b_interval_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="description_in">
+        <font face="Fira Code Medium">  description</font>
+      </td>
+      <td align="left" port="description_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="lithology_in">
+        <font face="Fira Code Medium">  lithology</font>
+      </td>
+      <td align="left" port="lithology_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="name_in">
+        <font face="Fira Code Medium">  name</font>
+      </td>
+      <td align="left" port="name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="t_age_in">
+        <font face="Fira Code Medium">  t_age</font>
+      </td>
+      <td align="left" port="t_age_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="t_interval_in">
+        <font face="Fira Code Medium">  t_interval</font>
+      </td>
+      <td align="left" port="t_interval_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    polygon_type [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">polygon_type</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_unit_in">
+        <font face="Fira Code Medium">□ map_unit</font>
+      </td>
+      <td align="left" port="map_unit_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="name_in">
+        <font face="Fira Code Medium">□ name</font>
+      </td>
+      <td align="left" port="name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="abbreviation_in">
+        <font face="Fira Code Medium">  abbreviation</font>
+      </td>
+      <td align="left" port="abbreviation_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="category_in">
+        <font face="Fira Code Medium">  category</font>
+      </td>
+      <td align="left" port="category_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="color_in">
+        <font face="Fira Code Medium">  color</font>
+      </td>
+      <td align="left" port="color_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="description_in">
+        <font face="Fira Code Medium">  description</font>
+      </td>
+      <td align="left" port="description_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="pattern_in">
+        <font face="Fira Code Medium">  pattern</font>
+      </td>
+      <td align="left" port="pattern_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    line_type [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">line_type</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="name_in">
+        <font face="Fira Code Medium">□ name</font>
+      </td>
+      <td align="left" port="name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="dash_pattern_in">
+        <font face="Fira Code Medium">  dash_pattern</font>
+      </td>
+      <td align="left" port="dash_pattern_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="description_in">
+        <font face="Fira Code Medium">  description</font>
+      </td>
+      <td align="left" port="description_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="symbol_in">
+        <font face="Fira Code Medium">  symbol</font>
+      </td>
+      <td align="left" port="symbol_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    line_feature [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">extractions.</font><font face="Fira Code Bold" color="black">line_feature</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_id_in">
+        <font face="Fira Code Medium">□ map_id</font>
+      </td>
+      <td align="left" port="map_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="polarity_in">
+        <font face="Fira Code Medium">□ polarity</font>
+      </td>
+      <td align="left" port="polarity_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="provenance_in">
+        <font face="Fira Code Medium">□ provenance</font>
+      </td>
+      <td align="left" port="provenance_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="type_in">
+        <font face="Fira Code Medium">□ type</font>
+      </td>
+      <td align="left" port="type_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="confidence_in">
+        <font face="Fira Code Medium">  confidence</font>
+      </td>
+      <td align="left" port="confidence_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_geom_in">
+        <font face="Fira Code Medium">  map_geom</font>
+      </td>
+      <td align="left" port="map_geom_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="name_in">
+        <font face="Fira Code Medium">  name</font>
+      </td>
+      <td align="left" port="name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="px_geom_in">
+        <font face="Fira Code Medium">  px_geom</font>
+      </td>
+      <td align="left" port="px_geom_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+  }subgraph cluster_2 {
+    color=invis;
+    confidence_scale [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">confidence_scale</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="name_in">
+        <font face="Fira Code Medium">■ name</font>
+      </td>
+      <td align="left" port="name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="description_in">
+        <font face="Fira Code Medium">  description</font>
+      </td>
+      <td align="left" port="description_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="max_value_in">
+        <font face="Fira Code Medium">  max_value</font>
+      </td>
+      <td align="left" port="max_value_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="min_value_in">
+        <font face="Fira Code Medium">  min_value</font>
+      </td>
+      <td align="left" port="min_value_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    extraction_pointer [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">extraction_pointer</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="table_name_in">
+        <font face="Fira Code Medium">□ table_name</font>
+      </td>
+      <td align="left" port="table_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="column_name_in">
+        <font face="Fira Code Medium">  column_name</font>
+      </td>
+      <td align="left" port="column_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="record_id_in">
+        <font face="Fira Code Medium">  record_id</font>
+      </td>
+      <td align="left" port="record_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    model_run [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">model_run</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_id_in">
+        <font face="Fira Code Medium">□ map_id</font>
+      </td>
+      <td align="left" port="map_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="batch_id_in">
+        <font face="Fira Code Medium">  batch_id</font>
+      </td>
+      <td align="left" port="batch_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="model_name_in">
+        <font face="Fira Code Medium">  model_name</font>
+      </td>
+      <td align="left" port="model_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="timestamp_in">
+        <font face="Fira Code Medium">  timestamp</font>
+      </td>
+      <td align="left" port="timestamp_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="version_in">
+        <font face="Fira Code Medium">  version</font>
+      </td>
+      <td align="left" port="version_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    gpkg_geometry_columns [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">gpkg_geometry_columns</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="column_name_in">
+        <font face="Fira Code Medium">■ column_name</font>
+      </td>
+      <td align="left" port="column_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="table_name_in">
+        <font face="Fira Code Medium">■ table_name</font>
+      </td>
+      <td align="left" port="table_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="srs_id_in">
+        <font face="Fira Code Medium">□ srs_id</font>
+      </td>
+      <td align="left" port="srs_id_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="geometry_type_name_in">
+        <font face="Fira Code Medium">  geometry_type_name</font>
+      </td>
+      <td align="left" port="geometry_type_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="m_in">
+        <font face="Fira Code Medium">  m</font>
+      </td>
+      <td align="left" port="m_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="z_in">
+        <font face="Fira Code Medium">  z</font>
+      </td>
+      <td align="left" port="z_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    ground_control_point [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">ground_control_point</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_id_in">
+        <font face="Fira Code Medium">□ map_id</font>
+      </td>
+      <td align="left" port="map_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="provenance_in">
+        <font face="Fira Code Medium">□ provenance</font>
+      </td>
+      <td align="left" port="provenance_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="confidence_in">
+        <font face="Fira Code Medium">  confidence</font>
+      </td>
+      <td align="left" port="confidence_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_geom_in">
+        <font face="Fira Code Medium">  map_geom</font>
+      </td>
+      <td align="left" port="map_geom_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="px_geom_in">
+        <font face="Fira Code Medium">  px_geom</font>
+      </td>
+      <td align="left" port="px_geom_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    geo_reference_meta [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">geo_reference_meta</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_id_in">
+        <font face="Fira Code Medium">□ map_id</font>
+      </td>
+      <td align="left" port="map_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="provenance_in">
+        <font face="Fira Code Medium">□ provenance</font>
+      </td>
+      <td align="left" port="provenance_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="bounds_in">
+        <font face="Fira Code Medium">  bounds</font>
+      </td>
+      <td align="left" port="bounds_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="projection_in">
+        <font face="Fira Code Medium">  projection</font>
+      </td>
+      <td align="left" port="projection_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    confidence_measurement [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">confidence_measurement</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="model_run_in">
+        <font face="Fira Code Medium">□ model_run</font>
+      </td>
+      <td align="left" port="model_run_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="pointer_in">
+        <font face="Fira Code Medium">□ pointer</font>
+      </td>
+      <td align="left" port="pointer_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="scale_in">
+        <font face="Fira Code Medium">□ scale</font>
+      </td>
+      <td align="left" port="scale_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="confidence_in">
+        <font face="Fira Code Medium">  confidence</font>
+      </td>
+      <td align="left" port="confidence_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="extra_data_in">
+        <font face="Fira Code Medium">  extra_data</font>
+      </td>
+      <td align="left" port="extra_data_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    cross_section [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">cross_section</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="map_id_in">
+        <font face="Fira Code Medium">□ map_id</font>
+      </td>
+      <td align="left" port="map_id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="provenance_in">
+        <font face="Fira Code Medium">□ provenance</font>
+      </td>
+      <td align="left" port="provenance_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="confidence_in">
+        <font face="Fira Code Medium">  confidence</font>
+      </td>
+      <td align="left" port="confidence_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="line_of_section_in">
+        <font face="Fira Code Medium">  line_of_section</font>
+      </td>
+      <td align="left" port="line_of_section_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="px_geom_in">
+        <font face="Fira Code Medium">  px_geom</font>
+      </td>
+      <td align="left" port="px_geom_out">
+        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    gpkg_spatial_ref_sys [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">gpkg_spatial_ref_sys</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="srs_id_in">
+        <font face="Fira Code Medium">■ srs_id</font>
+      </td>
+      <td align="left" port="srs_id_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="definition_in">
+        <font face="Fira Code Medium">  definition</font>
+      </td>
+      <td align="left" port="definition_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="description_in">
+        <font face="Fira Code Medium">  description</font>
+      </td>
+      <td align="left" port="description_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="organization_in">
+        <font face="Fira Code Medium">  organization</font>
+      </td>
+      <td align="left" port="organization_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="organization_coordsys_id_in">
+        <font face="Fira Code Medium">  organization_coordsys_id</font>
+      </td>
+      <td align="left" port="organization_coordsys_id_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="srs_name_in">
+        <font face="Fira Code Medium">  srs_name</font>
+      </td>
+      <td align="left" port="srs_name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr>
+    </table>
+    >]
+
+    page_extraction [label=<
+    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
+      <tr>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">page_extraction</font>
+        </td>
+      </tr><tr>
+      <td align="left" border="0" port="id_in">
+        <font face="Fira Code Medium">■ id</font>
+      </td>
+      <td align="left" port="id_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="model_run_in">
+        <font face="Fira Code Medium">□ model_run</font>
+      </td>
+      <td align="left" port="model_run_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="pointer_in">
+        <font face="Fira Code Medium">□ pointer</font>
+      </td>
+      <td align="left" port="pointer_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="provenance_in">
+        <font face="Fira Code Medium">□ provenance</font>
+      </td>
+      <td align="left" port="provenance_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="bounds_in">
+        <font face="Fira Code Medium">  bounds</font>
+      </td>
+      <td align="left" port="bounds_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="color_estimation_in">
+        <font face="Fira Code Medium">  color_estimation</font>
+      </td>
+      <td align="left" port="color_estimation_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="confidence_in">
+        <font face="Fira Code Medium">  confidence</font>
+      </td>
+      <td align="left" port="confidence_out">
+        <font face="Fira Code Regular">REAL</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="name_in">
+        <font face="Fira Code Medium">  name</font>
+      </td>
+      <td align="left" port="name_out">
+        <font face="Fira Code Regular">TEXT</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="ocr_text_in">
+        <font face="Fira Code Medium">  ocr_text</font>
+      </td>
+      <td align="left" port="ocr_text_out">
+        <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr>
     </table>
@@ -260,10 +1011,12 @@ digraph G {
     </table>
     >]
 
-    line_type [label=<
+  }subgraph cluster_3 {
+    color=invis;
+    map [label=<
     <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
       <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">line_type</font>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">map.</font><font face="Fira Code Bold" color="black">map</font>
         </td>
       </tr><tr>
       <td align="left" border="0" port="id_in">
@@ -273,134 +1026,25 @@ digraph G {
         <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">□ name</font>
+      <td align="left" border="0" port="image_height_in">
+        <font face="Fira Code Medium">  image_height</font>
       </td>
-      <td align="left" port="name_out">
+      <td align="left" port="image_height_out">
+        <font face="Fira Code Regular">INTEGER</font>
+      </td>
+    </tr> <tr>
+      <td align="left" border="0" port="image_url_in">
+        <font face="Fira Code Medium">  image_url</font>
+      </td>
+      <td align="left" port="image_url_out">
         <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
-      <td align="left" border="0" port="dash_pattern_in">
-        <font face="Fira Code Medium">  dash_pattern</font>
+      <td align="left" border="0" port="image_width_in">
+        <font face="Fira Code Medium">  image_width</font>
       </td>
-      <td align="left" port="dash_pattern_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="description_in">
-        <font face="Fira Code Medium">  description</font>
-      </td>
-      <td align="left" port="description_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="symbol_in">
-        <font face="Fira Code Medium">  symbol</font>
-      </td>
-      <td align="left" port="symbol_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    geo_reference_meta [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">geo_reference_meta</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_id_in">
-        <font face="Fira Code Medium">□ map_id</font>
-      </td>
-      <td align="left" port="map_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="provenance_in">
-        <font face="Fira Code Medium">□ provenance</font>
-      </td>
-      <td align="left" port="provenance_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="bounds_in">
-        <font face="Fira Code Medium">  bounds</font>
-      </td>
-      <td align="left" port="bounds_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="projection_in">
-        <font face="Fira Code Medium">  projection</font>
-      </td>
-      <td align="left" port="projection_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    page_extraction [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">page_extraction</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="pointer_in">
-        <font face="Fira Code Medium">□ pointer</font>
-      </td>
-      <td align="left" port="pointer_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="provenance_in">
-        <font face="Fira Code Medium">□ provenance</font>
-      </td>
-      <td align="left" port="provenance_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="bounds_in">
-        <font face="Fira Code Medium">  bounds</font>
-      </td>
-      <td align="left" port="bounds_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="color_estimation_in">
-        <font face="Fira Code Medium">  color_estimation</font>
-      </td>
-      <td align="left" port="color_estimation_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="confidence_in">
-        <font face="Fira Code Medium">  confidence</font>
-      </td>
-      <td align="left" port="confidence_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="model_run_in">
-        <font face="Fira Code Medium">  model_run</font>
-      </td>
-      <td align="left" port="model_run_out">
-        <font face="Fira Code Regular">TEXT</font>
+      <td align="left" port="image_width_out">
+        <font face="Fira Code Regular">INTEGER</font>
       </td>
     </tr> <tr>
       <td align="left" border="0" port="name_in">
@@ -410,479 +1054,11 @@ digraph G {
         <font face="Fira Code Regular">TEXT</font>
       </td>
     </tr> <tr>
-      <td align="left" border="0" port="ocr_text_in">
-        <font face="Fira Code Medium">  ocr_text</font>
+      <td align="left" border="0" port="source_url_in">
+        <font face="Fira Code Medium">  source_url</font>
       </td>
-      <td align="left" port="ocr_text_out">
+      <td align="left" port="source_url_out">
         <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    confidence_scale [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">confidence_scale</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">■ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="description_in">
-        <font face="Fira Code Medium">  description</font>
-      </td>
-      <td align="left" port="description_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="max_value_in">
-        <font face="Fira Code Medium">  max_value</font>
-      </td>
-      <td align="left" port="max_value_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="min_value_in">
-        <font face="Fira Code Medium">  min_value</font>
-      </td>
-      <td align="left" port="min_value_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    line_feature [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">line_feature</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_id_in">
-        <font face="Fira Code Medium">□ map_id</font>
-      </td>
-      <td align="left" port="map_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="polarity_in">
-        <font face="Fira Code Medium">□ polarity</font>
-      </td>
-      <td align="left" port="polarity_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="provenance_in">
-        <font face="Fira Code Medium">□ provenance</font>
-      </td>
-      <td align="left" port="provenance_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="type_in">
-        <font face="Fira Code Medium">□ type</font>
-      </td>
-      <td align="left" port="type_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="confidence_in">
-        <font face="Fira Code Medium">  confidence</font>
-      </td>
-      <td align="left" port="confidence_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_geom_in">
-        <font face="Fira Code Medium">  map_geom</font>
-      </td>
-      <td align="left" port="map_geom_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">  name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="px_geom_in">
-        <font face="Fira Code Medium">  px_geom</font>
-      </td>
-      <td align="left" port="px_geom_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    map_model_run [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">map_model_run</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="map_id_in">
-        <font face="Fira Code Medium">■ map_id</font>
-      </td>
-      <td align="left" port="map_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="model_run_in">
-        <font face="Fira Code Medium">■ model_run</font>
-      </td>
-      <td align="left" port="model_run_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    geometry_columns [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">geometry_columns</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="coord_dimension_in">
-        <font face="Fira Code Medium">  coord_dimension</font>
-      </td>
-      <td align="left" port="coord_dimension_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="f_geometry_column_in">
-        <font face="Fira Code Medium">  f_geometry_column</font>
-      </td>
-      <td align="left" port="f_geometry_column_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="f_table_name_in">
-        <font face="Fira Code Medium">  f_table_name</font>
-      </td>
-      <td align="left" port="f_table_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="geometry_format_in">
-        <font face="Fira Code Medium">  geometry_format</font>
-      </td>
-      <td align="left" port="geometry_format_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="geometry_type_in">
-        <font face="Fira Code Medium">  geometry_type</font>
-      </td>
-      <td align="left" port="geometry_type_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="srid_in">
-        <font face="Fira Code Medium">  srid</font>
-      </td>
-      <td align="left" port="srid_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    enum_provenance_type [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">enum_provenance_type</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">■ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    cross_section [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">cross_section</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_id_in">
-        <font face="Fira Code Medium">□ map_id</font>
-      </td>
-      <td align="left" port="map_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="provenance_in">
-        <font face="Fira Code Medium">□ provenance</font>
-      </td>
-      <td align="left" port="provenance_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="confidence_in">
-        <font face="Fira Code Medium">  confidence</font>
-      </td>
-      <td align="left" port="confidence_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="line_of_section_in">
-        <font face="Fira Code Medium">  line_of_section</font>
-      </td>
-      <td align="left" port="line_of_section_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="px_geom_in">
-        <font face="Fira Code Medium">  px_geom</font>
-      </td>
-      <td align="left" port="px_geom_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    model_run [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">model_run</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="batch_id_in">
-        <font face="Fira Code Medium">  batch_id</font>
-      </td>
-      <td align="left" port="batch_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="model_name_in">
-        <font face="Fira Code Medium">  model_name</font>
-      </td>
-      <td align="left" port="model_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="timestamp_in">
-        <font face="Fira Code Medium">  timestamp</font>
-      </td>
-      <td align="left" port="timestamp_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="version_in">
-        <font face="Fira Code Medium">  version</font>
-      </td>
-      <td align="left" port="version_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    gpkg_spatial_ref_sys [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">gpkg_spatial_ref_sys</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="srs_id_in">
-        <font face="Fira Code Medium">■ srs_id</font>
-      </td>
-      <td align="left" port="srs_id_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="definition_in">
-        <font face="Fira Code Medium">  definition</font>
-      </td>
-      <td align="left" port="definition_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="description_in">
-        <font face="Fira Code Medium">  description</font>
-      </td>
-      <td align="left" port="description_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="organization_in">
-        <font face="Fira Code Medium">  organization</font>
-      </td>
-      <td align="left" port="organization_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="organization_coordsys_id_in">
-        <font face="Fira Code Medium">  organization_coordsys_id</font>
-      </td>
-      <td align="left" port="organization_coordsys_id_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="srs_name_in">
-        <font face="Fira Code Medium">  srs_name</font>
-      </td>
-      <td align="left" port="srs_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    confidence_measurement [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">confidence_measurement</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="pointer_in">
-        <font face="Fira Code Medium">□ pointer</font>
-      </td>
-      <td align="left" port="pointer_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="scale_in">
-        <font face="Fira Code Medium">□ scale</font>
-      </td>
-      <td align="left" port="scale_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="confidence_in">
-        <font face="Fira Code Medium">  confidence</font>
-      </td>
-      <td align="left" port="confidence_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="extra_data_in">
-        <font face="Fira Code Medium">  extra_data</font>
-      </td>
-      <td align="left" port="extra_data_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="model_run_in">
-        <font face="Fira Code Medium">  model_run</font>
-      </td>
-      <td align="left" port="model_run_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    point_feature [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">point_feature</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_id_in">
-        <font face="Fira Code Medium">□ map_id</font>
-      </td>
-      <td align="left" port="map_id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="provenance_in">
-        <font face="Fira Code Medium">□ provenance</font>
-      </td>
-      <td align="left" port="provenance_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="type_in">
-        <font face="Fira Code Medium">□ type</font>
-      </td>
-      <td align="left" port="type_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="confidence_in">
-        <font face="Fira Code Medium">  confidence</font>
-      </td>
-      <td align="left" port="confidence_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="dip_in">
-        <font face="Fira Code Medium">  dip</font>
-      </td>
-      <td align="left" port="dip_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="dip_direction_in">
-        <font face="Fira Code Medium">  dip_direction</font>
-      </td>
-      <td align="left" port="dip_direction_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_geom_in">
-        <font face="Fira Code Medium">  map_geom</font>
-      </td>
-      <td align="left" port="map_geom_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="px_geom_in">
-        <font face="Fira Code Medium">  px_geom</font>
-      </td>
-      <td align="left" port="px_geom_out">
-        <font face="Fira Code Regular">geometry(GEOMETRY,-1)</font>
       </td>
     </tr>
     </table>
@@ -891,7 +1067,7 @@ digraph G {
     map_metadata [label=<
     <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
       <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">map_metadata</font>
+        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">map.</font><font face="Fira Code Bold" color="black">map_metadata</font>
         </td>
       </tr><tr>
       <td align="left" border="0" port="id_in">
@@ -960,339 +1136,7 @@ digraph G {
     </table>
     >]
 
-    point_type [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">point_type</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">□ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="description_in">
-        <font face="Fira Code Medium">  description</font>
-      </td>
-      <td align="left" port="description_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    enum_polygon_type [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">enum_polygon_type</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">■ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    geologic_unit [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">geologic_unit</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="age_text_in">
-        <font face="Fira Code Medium">  age_text</font>
-      </td>
-      <td align="left" port="age_text_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="b_age_in">
-        <font face="Fira Code Medium">  b_age</font>
-      </td>
-      <td align="left" port="b_age_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="b_interval_in">
-        <font face="Fira Code Medium">  b_interval</font>
-      </td>
-      <td align="left" port="b_interval_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="description_in">
-        <font face="Fira Code Medium">  description</font>
-      </td>
-      <td align="left" port="description_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="lithology_in">
-        <font face="Fira Code Medium">  lithology</font>
-      </td>
-      <td align="left" port="lithology_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">  name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="t_age_in">
-        <font face="Fira Code Medium">  t_age</font>
-      </td>
-      <td align="left" port="t_age_out">
-        <font face="Fira Code Regular">REAL</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="t_interval_in">
-        <font face="Fira Code Medium">  t_interval</font>
-      </td>
-      <td align="left" port="t_interval_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    enum_line_type [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">enum_line_type</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">■ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    enum_point_type [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">enum_point_type</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">■ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    enum_line_polarity [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">enum_line_polarity</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="value_in">
-        <font face="Fira Code Medium">■ value</font>
-      </td>
-      <td align="left" port="value_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    map [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">map</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="image_height_in">
-        <font face="Fira Code Medium">  image_height</font>
-      </td>
-      <td align="left" port="image_height_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="image_url_in">
-        <font face="Fira Code Medium">  image_url</font>
-      </td>
-      <td align="left" port="image_url_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="image_width_in">
-        <font face="Fira Code Medium">  image_width</font>
-      </td>
-      <td align="left" port="image_width_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">  name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="source_url_in">
-        <font face="Fira Code Medium">  source_url</font>
-      </td>
-      <td align="left" port="source_url_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    gpkg_geometry_columns [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">gpkg_geometry_columns</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="column_name_in">
-        <font face="Fira Code Medium">■ column_name</font>
-      </td>
-      <td align="left" port="column_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="table_name_in">
-        <font face="Fira Code Medium">■ table_name</font>
-      </td>
-      <td align="left" port="table_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="srs_id_in">
-        <font face="Fira Code Medium">□ srs_id</font>
-      </td>
-      <td align="left" port="srs_id_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="geometry_type_name_in">
-        <font face="Fira Code Medium">  geometry_type_name</font>
-      </td>
-      <td align="left" port="geometry_type_name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="m_in">
-        <font face="Fira Code Medium">  m</font>
-      </td>
-      <td align="left" port="m_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="z_in">
-        <font face="Fira Code Medium">  z</font>
-      </td>
-      <td align="left" port="z_out">
-        <font face="Fira Code Regular">INTEGER</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
-    polygon_type [label=<
-    <table bgcolor="lightyellow" border="1" cellborder="0" cellspacing="0">
-      <tr>
-        <td colspan="2" cellpadding="4" align="left" bgcolor="palegoldenrod"><font face="Fira Code Regular" color="black">gpkg.</font><font face="Fira Code Bold" color="black">polygon_type</font>
-        </td>
-      </tr><tr>
-      <td align="left" border="0" port="id_in">
-        <font face="Fira Code Medium">■ id</font>
-      </td>
-      <td align="left" port="id_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="map_unit_in">
-        <font face="Fira Code Medium">□ map_unit</font>
-      </td>
-      <td align="left" port="map_unit_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="name_in">
-        <font face="Fira Code Medium">□ name</font>
-      </td>
-      <td align="left" port="name_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="abbreviation_in">
-        <font face="Fira Code Medium">  abbreviation</font>
-      </td>
-      <td align="left" port="abbreviation_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="category_in">
-        <font face="Fira Code Medium">  category</font>
-      </td>
-      <td align="left" port="category_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="color_in">
-        <font face="Fira Code Medium">  color</font>
-      </td>
-      <td align="left" port="color_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="description_in">
-        <font face="Fira Code Medium">  description</font>
-      </td>
-      <td align="left" port="description_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr> <tr>
-      <td align="left" border="0" port="pattern_in">
-        <font face="Fira Code Medium">  pattern</font>
-      </td>
-      <td align="left" port="pattern_out">
-        <font face="Fira Code Regular">TEXT</font>
-      </td>
-    </tr>
-    </table>
-    >]
-
+  }
 
 
 edge [
@@ -1305,34 +1149,23 @@ edge [
   arrowhead = normal;
   arrowtail = dot;
   ]
-extraction_pointer:table_name_out:e -> enum_table_name:name_in:w
-ground_control_point:provenance_out:e -> enum_provenance_type:name_in:w
-polygon_feature:map_id_out:e -> map:id_in:w
-polygon_feature:type_out:e -> polygon_type:id_in:w
-polygon_feature:provenance_out:e -> enum_provenance_type:name_in:w
-gpkg_contents:srs_id_out:e -> gpkg_spatial_ref_sys:srs_id_in:w
-line_type:name_out:e -> enum_line_type:name_in:w
-geo_reference_meta:map_id_out:e -> map:id_in:w
-geo_reference_meta:provenance_out:e -> enum_provenance_type:name_in:w
-page_extraction:pointer_out:e -> extraction_pointer:id_in:w
-page_extraction:provenance_out:e -> enum_provenance_type:name_in:w
-line_feature:map_id_out:e -> map:id_in:w
-line_feature:type_out:e -> line_type:id_in:w
-line_feature:polarity_out:e -> enum_line_polarity:value_in:w
-line_feature:provenance_out:e -> enum_provenance_type:name_in:w
-map_model_run:map_id_out:e -> map:id_in:w
-map_model_run:model_run_out:e -> model_run:id_in:w
-cross_section:map_id_out:e -> map:id_in:w
-cross_section:provenance_out:e -> enum_provenance_type:name_in:w
-confidence_measurement:pointer_out:e -> extraction_pointer:id_in:w
-confidence_measurement:scale_out:e -> confidence_scale:name_in:w
-point_feature:map_id_out:e -> map:id_in:w
-point_feature:type_out:e -> point_type:id_in:w
-point_feature:provenance_out:e -> enum_provenance_type:name_in:w
-map_metadata:map_id_out:e -> map:id_in:w
-map_metadata:provenance_out:e -> enum_provenance_type:name_in:w
-point_type:name_out:e -> enum_point_type:name_in:w
+model_run:map_id_out:e -> map:id_in:w
 gpkg_geometry_columns:table_name_out:e -> gpkg_contents:table_name_in:w
 gpkg_geometry_columns:srs_id_out:e -> gpkg_spatial_ref_sys:srs_id_in:w
-polygon_type:name_out:e -> enum_polygon_type:name_in:w
-polygon_type:map_unit_out:e -> geologic_unit:id_in:w}
+point_feature:map_id_out:e -> map:id_in:w
+point_feature:type_out:e -> point_type:id_in:w
+polygon_feature:map_id_out:e -> map:id_in:w
+polygon_feature:type_out:e -> polygon_type:id_in:w
+ground_control_point:map_id_out:e -> map:id_in:w
+polygon_type:map_unit_out:e -> geologic_unit:id_in:w
+geo_reference_meta:map_id_out:e -> map:id_in:w
+map_metadata:map_id_out:e -> map:id_in:w
+confidence_measurement:model_run_out:e -> model_run:id_in:w
+confidence_measurement:pointer_out:e -> extraction_pointer:id_in:w
+confidence_measurement:scale_out:e -> confidence_scale:name_in:w
+line_feature:map_id_out:e -> map:id_in:w
+line_feature:type_out:e -> line_type:id_in:w
+cross_section:map_id_out:e -> map:id_in:w
+page_extraction:pointer_out:e -> extraction_pointer:id_in:w
+page_extraction:model_run_out:e -> model_run:id_in:w
+gpkg_contents:srs_id_out:e -> gpkg_spatial_ref_sys:srs_id_in:w}

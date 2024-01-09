@@ -20,10 +20,12 @@ be made available as `criticalmass.ta1_geopackage` on PyPI.
 
 - [Fudgeo](https://github.com/realiii/fudgeo): modern Python package for working with GeoPackages. Duplicates many features of more common
   packages like `fiona` and `geopandas` but provides low-level access to the GeoPackage spec.
-- [GeoPackage Python](
+- [Fiona](https://fiona.readthedocs.io/en/stable/): A python library for working with geospatial vector data.
+- [GeoPandas](https://geopandas.org/): A python library for working with geospatial vector data.
+- [GeoAlchemy 2](https://geoalchemy-2.readthedocs.io/en/latest/): A python library for interfacing in PostGIS, Spatialite, and GeoPackage.
 
 ## Differences from TA1 schema
 
 - `extraction_identifier` -> `extraction_pointer`
 - `model` field has been renamed to `pointer` for clarity for linking models
-- `MapFeatureExtractions` is replaced by many-to-one foreign key relationships
+- `MapFeatureExtractions` is replaced by many-to-one foreign key relationships directly to the `map` table

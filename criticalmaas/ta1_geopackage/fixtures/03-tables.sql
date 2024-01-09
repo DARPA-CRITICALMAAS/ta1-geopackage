@@ -123,15 +123,9 @@ CREATE TABLE model_run (
   model_name TEXT NOT NULL, -- model name
   version TEXT NOT NULL, -- model version
   timestamp TEXT NOT NULL, -- time of model run
-  batch_id TEXT -- batch ID
-);
-
-CREATE TABLE map_model_run (
+  batch_id TEXT, -- batch ID
   map_id TEXT NOT NULL, -- ID of the containing map
-  model_run TEXT NOT NULL, -- model run ID
-  FOREIGN KEY (map_id) REFERENCES map(id),
-  FOREIGN KEY (model_run) REFERENCES model_run(id),
-  PRIMARY KEY (map_id, model_run)
+  FOREIGN KEY (map_id) REFERENCES map(id)
 );
 
 CREATE TABLE confidence_measurement (
@@ -141,6 +135,7 @@ CREATE TABLE confidence_measurement (
   confidence REAL NOT NULL, -- confidence value
   scale TEXT NOT NULL, -- confidence scale
   extra_data TEXT, -- additional data (JSON)
+  FOREIGN KEY (model_run) REFERENCES model_run(id),
   FOREIGN KEY (pointer) REFERENCES extraction_pointer(id),
   FOREIGN KEY (scale) REFERENCES confidence_scale(name)
 );
@@ -157,6 +152,7 @@ CREATE TABLE page_extraction (
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (pointer) REFERENCES extraction_pointer(id),
+  FOREIGN KEY (model_run) REFERENCES model_run(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
 
@@ -168,6 +164,7 @@ CREATE TABLE ground_control_point (
   px_geom POINT, -- point geometry, pixel coordinates
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
+  FOREIGN KEY (map_id) REFERENCES map(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
 
