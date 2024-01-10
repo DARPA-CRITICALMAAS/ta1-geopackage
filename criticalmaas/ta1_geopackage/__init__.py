@@ -2,7 +2,6 @@ from pathlib import Path
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from macrostrat.database import Database
-from contextlib import contextmanager
 import fiona
 
 

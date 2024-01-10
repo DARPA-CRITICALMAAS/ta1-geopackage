@@ -1,5 +1,7 @@
 """
-TA1 schemas for GeoPackage output. Right now this is copied from the TA1 schema repository
+TA1 schemas for GeoPackage output (FOR REFERENCE).
+
+Right now this is copied from the TA1 schema repository
 (https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta1)
 but we can integrate more directly in the future
 """

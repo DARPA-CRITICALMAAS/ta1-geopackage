@@ -1,34 +1,32 @@
 from pathlib import Path
 from macrostrat.utils import working_directory
 from . import GeopackageDatabase
-from macrostrat.database import run_sql
 from pytest import fixture
 from typing import Generator
 import numpy as N
-import fiona
 
 
 @fixture(scope="function")
-def empty_geopackage(tmp_path: Path) -> Generator[GeopackageDatabase, None, None]:
+def gpkg(tmp_path: Path) -> Generator[GeopackageDatabase, None, None]:
     with working_directory(str(tmp_path)):
         db = GeopackageDatabase(tmp_path / "test.gpkg")
         db.create_fixtures()
         yield db
 
 
-def tests_geopackage_file_creation(empty_geopackage: GeopackageDatabase):
+def tests_geopackage_file_creation(gpkg: GeopackageDatabase):
     """Create temporary geopackage file and check that it exists."""
-    assert empty_geopackage.file.exists()
+    assert gpkg.file.exists()
 
 
-def test_write_polygon_feature_to_geopackage(empty_geopackage: GeopackageDatabase):
+def test_write_polygon_feature_to_geopackage(gpkg: GeopackageDatabase):
     """
     Write polygon data directly to a GeoPackage file
     """
 
     # Need to create a map and a polygon type before we do anything,
     # to make sure that foreign keys align
-    empty_geopackage.run_sql(
+    gpkg.run_sql(
         """
         INSERT INTO map (id, name, source_url, image_url, image_width, image_height)
         VALUES ('test', 'test', 'test', 'test', -1, -1);
@@ -56,9 +54,9 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: GeopackageDatabas
             "coordinates": coords,
         },
     }
-    empty_geopackage.write_features("polygon_feature", [feat])
+    gpkg.write_features("polygon_feature", [feat])
 
-    with empty_geopackage.open_layer("polygon_feature") as src:
+    with gpkg.open_layer("polygon_feature") as src:
         assert len(src) == 1
 
         # To successfully read fields, you need to ignore the px_geom field,
