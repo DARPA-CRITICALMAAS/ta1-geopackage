@@ -205,7 +205,6 @@ CREATE TABLE map_metadata (
 INSERT INTO gpkg_spatial_ref_sys (
   srs_name, srs_id, organization, organization_coordsys_id, definition, description)
   VALUES
-  ('WGS 84', 4326, 'EPSG', 4326, 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]', 'WGS 84'),
   ('Pixel coordinates', 0, 'CRITICALMAAS', 0, 'PIXELCS["Pixel coordinates", ENGRUNITS["m", 1.0]]', 'Pixel coordinates');
 
 INSERT INTO gpkg_contents (table_name, data_type, identifier, description)
@@ -221,12 +220,12 @@ INSERT INTO gpkg_contents (table_name, data_type, identifier, description)
 
 INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m)
   VALUES
-  ('polygon_feature', 'geometry', 'MULTIPOLYGON', 4326, 0, 0),
-  ('line_feature', 'geometry', 'MULTILINESTRING', 4326, 0, 0),
-  ('point_feature', 'geometry', 'POINT', 4326, 0, 0),
-  ('cross_section', 'geometry', 'LINESTRING', 4326, 0, 0),
-  ('ground_control_point', 'geometry', 'POINT', 4326, 0, 0),
-  ('georeference_meta', 'bounds', 'POLYGON', 4326, 0, 0),
+  ('polygon_feature', 'geometry', 'MULTIPOLYGON', 0, 0, 0),
+  ('line_feature', 'geometry', 'MULTILINESTRING', 0, 0, 0),
+  ('point_feature', 'geometry', 'POINT', 0, 0, 0),
+  ('cross_section', 'geometry', 'LINESTRING', 0, 0, 0),
+  ('ground_control_point', 'geometry', 'POINT', 0, 0, 0),
+  ('georeference_meta', 'bounds', 'POLYGON', 0, 0, 0),
   ('page_extraction', 'px_geometry', 'GEOMETRY', 0, 0, 0);
 
 -- Create an empty geometry_columns table so that Geoalchemy2 doesn't complain

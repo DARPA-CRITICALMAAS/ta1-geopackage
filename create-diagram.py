@@ -1,4 +1,4 @@
-from criticalmaas.ta1_geopackage import create_geopackage
+from criticalmaas.ta1_geopackage import GeopackageDatabase
 from sadisplay import describe, render
 from sqlalchemy import MetaData
 from pathlib import Path
@@ -32,12 +32,13 @@ pkg.unlink(missing_ok=True)
 dotfile = outfile.with_suffix(".dot")
 dotfile.unlink(missing_ok=True)
 
-engine = create_geopackage(pkg)
+db = GeopackageDatabase(pkg)
+db.create_fixtures()
 
 meta = MetaData()
-meta.reflect(bind=engine)
+meta.reflect(bind=db.engine)
 
-desc = describe(engine.url)
+desc = describe(db.engine.url)
 
 table_names = set(meta.tables.keys())
 
