@@ -24,9 +24,9 @@ and use other tools such as `ogr2ogr` to load data into the database.
 
 ## Ongoing work
 
-- [ ] Tests with geographic data
-- [ ] Helpers for working with multiple projections
-- [ ] Example dataset
+- [x] Tests with geographic data
+- [x] Helpers for working with multiple projections
+- [ ] Example datasets
 - [ ] Example script for dumping a Macrostrat map
 - [ ] Schema adjustments and improvements.
 - [ ] Make the package available as `criticalmass.ta1_geopackage` on PyPI.

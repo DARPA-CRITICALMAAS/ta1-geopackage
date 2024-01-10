@@ -4,13 +4,16 @@ from . import GeopackageDatabase
 from pytest import fixture
 from typing import Generator
 import numpy as N
+from fiona.crs import CRS
+from macrostrat.utils import get_logger
+
+log = get_logger(__name__)
 
 
 @fixture(scope="function")
 def gpkg(tmp_path: Path) -> Generator[GeopackageDatabase, None, None]:
     with working_directory(str(tmp_path)):
-        db = GeopackageDatabase(tmp_path / "test.gpkg")
-        db.create_fixtures()
+        db = GeopackageDatabase(tmp_path / "test.gpkg", crs="EPSG:4326")
         yield db
 
 
@@ -72,3 +75,67 @@ def test_write_polygon_feature_to_geopackage(gpkg: GeopackageDatabase):
             feat["geometry"]["coordinates"],
             coords,
         )
+
+
+def test_geographic_proj():
+    proj = CRS.from_string("EPSG:4326")
+    assert proj.is_geographic
+
+
+def test_non_geographic_proj():
+    proj = CRS.from_string("EPSG:32612")
+    assert not proj.is_geographic
+    assert proj.to_epsg() == 32612
+
+
+def test_proj_user_input():
+    proj = CRS.from_user_input(32612)
+    assert not proj.is_geographic
+    assert proj.to_epsg() == 32612
+
+    proj1 = CRS.from_user_input(proj)
+    assert proj1 == proj
+
+
+def get_proj_srs_id(proj: CRS):
+    return proj.to_epsg()
+
+
+def test_geopackage_wgs84(gpkg: GeopackageDatabase):
+    val = next(
+        gpkg.run_sql(
+            "SELECT srs_id FROM gpkg_geometry_columns WHERE table_name = :table_name",
+            params={"table_name": "polygon_feature"},
+        )
+    ).scalar()
+
+    assert val == 4326
+
+    with gpkg.open_layer("polygon_feature") as src:
+        assert src.crs.is_geographic
+        assert src.crs.to_epsg() == 4326
+
+
+def test_create_geopackage_alt_projection(gpkg: GeopackageDatabase):
+    """
+    Create a GeoPackage with an alternate projection
+    """
+    crs_string = "EPSG:32612"
+    proj = CRS.from_string(crs_string)
+    gpkg.set_crs(crs=crs_string)
+
+    with gpkg.open_layer("polygon_feature") as src:
+        assert not src.crs.is_geographic
+        assert src.crs.to_epsg() == proj.to_epsg()
+        assert src.crs == proj
+
+
+def test_pixel_projection(gpkg: GeopackageDatabase):
+    """
+    Create a GeoPackage with no set projection
+    """
+    gpkg.set_crs("CRITICALMAAS:pixel")
+
+    with gpkg.open_layer("polygon_feature") as src:
+        log.debug(src.crs.to_dict())
+        assert src.crs.to_epsg() is None
