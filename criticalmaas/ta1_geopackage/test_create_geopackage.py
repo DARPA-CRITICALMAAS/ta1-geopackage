@@ -2,10 +2,10 @@ from pathlib import Path
 from macrostrat.utils import working_directory
 from . import create_geopackage, enable_foreign_keys
 from macrostrat.database import run_sql, Database
-from sqlalchemy import text
 from pytest import fixture
-from sqlalchemy.engine import Engine
 from typing import Generator
+import numpy as N
+import fiona
 
 
 @fixture(scope="function")
@@ -50,28 +50,35 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: Path):
         raise_errors=True,
     )
 
-    # Write the feature to the database
-    # conn.execute(text(sql), dict(geom=geom))
-    run_sql(
-        engine,
-        "INSERT INTO polygon_feature (id, map_id, map_geom) VALUES ('test', 'test', :geom)",
-        params=dict(geom=feature),
-        raise_errors=True,
-    )
+    # Read and write features
 
-    # Read the feature back from the database
-    result = run_sql(
-        engine,
-        "SELECT map_geom FROM polygon_feature WHERE id = 'test'",
-    )
-    res = result[0].fetchone()
-    assert res is not None
-    assert res.map_geom is not None
-    assert res.map_geom == feature
+    coords = [[[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0), (0.0, 0.0)]]]
 
-    # Read the feature back from the database with Fiona
-    import fiona
+    with fiona.open(
+        str(empty_geopackage), "a", driver="GPKG", layer="polygon_feature", schema=None
+    ) as src:
+        feat = {
+            "properties": {"id": "test", "map_id": "test"},
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": coords,
+            },
+        }
+        src.write(feat)
 
     with fiona.open(str(empty_geopackage), layer="polygon_feature") as src:
         assert len(src) == 1
-        assert src[0]["geometry"] == shape(feature)
+
+        # To successfully read fields, you need to ignore the px_geom field,
+        # which is technically not compatible with the GeoPackage spec
+        # src.ignore_fields = ["px_geom"]
+        feat = next(iter(src))
+
+        assert feat["properties"]["id"] == "test"
+        assert feat["properties"]["map_id"] == "test"
+
+        assert feat["geometry"]["type"] == "MultiPolygon"
+        assert N.allclose(
+            feat["geometry"]["coordinates"],
+            coords,
+        )
