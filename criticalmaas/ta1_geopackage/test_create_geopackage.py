@@ -13,8 +13,7 @@ log = get_logger(__name__)
 @fixture(scope="function")
 def gpkg(tmp_path: Path) -> Generator[GeopackageDatabase, None, None]:
     with working_directory(str(tmp_path)):
-        db = GeopackageDatabase(tmp_path / "test.gpkg")
-        db.create_fixtures()
+        db = GeopackageDatabase(tmp_path / "test.gpkg", crs="EPSG:4326")
         yield db
 
 
@@ -102,9 +101,7 @@ def get_proj_srs_id(proj: CRS):
     return proj.to_epsg()
 
 
-def test_geopackage_proj(gpkg: GeopackageDatabase):
-    gpkg.set_crs(crs="EPSG:4326")
-
+def test_geopackage_wgs84(gpkg: GeopackageDatabase):
     val = next(
         gpkg.run_sql(
             "SELECT srs_id FROM gpkg_geometry_columns WHERE table_name = :table_name",
@@ -137,6 +134,8 @@ def test_pixel_projection(gpkg: GeopackageDatabase):
     """
     Create a GeoPackage with no set projection
     """
+    gpkg.set_crs("CRITICALMAAS:pixel")
+
     with gpkg.open_layer("polygon_feature") as src:
         log.debug(src.crs.to_dict())
         assert src.crs.to_epsg() is None

@@ -33,7 +33,6 @@ dotfile = outfile.with_suffix(".dot")
 dotfile.unlink(missing_ok=True)
 
 db = GeopackageDatabase(pkg)
-db.create_fixtures()
 
 meta = MetaData()
 meta.reflect(bind=db.engine)
