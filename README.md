@@ -22,6 +22,10 @@ If you are not using Python, you can load the schema directly from
 the [`criticalmaas/ta1_geopackage/fixtures`](criticalmaas/ta1_geopackage/fixtures) directory,
 and use other tools such as `ogr2ogr` to load data into the database.
 
+## Examples
+
+- [bc_kananaskis.gpkg](https://v2.macrostrat.org/maps/234)
+
 ## Ongoing work
 
 - [x] Tests with geographic data
