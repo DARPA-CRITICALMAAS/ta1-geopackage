@@ -53,8 +53,7 @@ CREATE TABLE line_type (
 CREATE TABLE polygon_feature (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  map_geom MULTIPOLYGON NOT NULL, -- polygon geometry, world coordinates
-  px_geom MULTIPOLYGON, -- polygon geometry, pixel coordinates
+  geometry MULTIPOLYGON NOT NULL, -- polygon geometry, world coordinates
   type TEXT, -- polygon type information
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
@@ -66,8 +65,7 @@ CREATE TABLE polygon_feature (
 CREATE TABLE line_feature (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  map_geom MULTILINESTRING NOT NULL, -- line geometry, world coordinates
-  --px_geom MULTILINESTRING, -- line geometry, pixel coordinates
+  geometry MULTILINESTRING NOT NULL, -- line geometry, world coordinates
   name TEXT, -- name of this map feature
   type TEXT, -- line type information
   polarity INTEGER, -- line polarity
@@ -90,8 +88,7 @@ CREATE TABLE point_type (
 CREATE TABLE point_feature (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  map_geom POINT NOT NULL, -- point geometry, world coordinates
-  px_geom POINT, -- point geometry, pixel coordinates
+  geometry POINT NOT NULL, -- point geometry, world coordinates
   type TEXT, -- point type information
   dip_direction REAL, -- dip direction
   dip REAL, -- dip
@@ -148,6 +145,7 @@ CREATE TABLE page_extraction (
   model_run TEXT NOT NULL, -- model run ID
   ocr_text TEXT, -- OCR text of the page extraction
   color_estimation TEXT, -- color estimation
+  px_geometry GEOMETRY, -- geometry of the page extraction, in pixel coordinates
   bounds TEXT NOT NULL, -- bounds of the page extraction, in pixel coordinates
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
@@ -160,8 +158,9 @@ CREATE TABLE page_extraction (
 CREATE TABLE ground_control_point (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  map_geom POINT NOT NULL, -- point geometry, world coordinates
-  px_geom POINT, -- point geometry, pixel coordinates
+  geometry POINT NOT NULL, -- point geometry, world coordinates
+  x REAL NOT NULL, -- x coordinate, pixel coordinates
+  y REAL NOT NULL, -- y coordinate, pixel coordinates
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (map_id) REFERENCES map(id),
@@ -171,15 +170,14 @@ CREATE TABLE ground_control_point (
 CREATE TABLE cross_section (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  line_of_section LINESTRING NOT NULL, -- line geometry, world coordinates
-  px_geom LINESTRING, -- line geometry, pixel coordinates
+  geometry LINESTRING NOT NULL, -- line geometry, world coordinates
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (map_id) REFERENCES map(id),
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
 
-CREATE TABLE geo_reference_meta (
+CREATE TABLE georeference_meta (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
   projection TEXT NOT NULL, -- Map projection information
@@ -221,12 +219,12 @@ INSERT INTO gpkg_contents (table_name, data_type, identifier, description)
 
 INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m)
   VALUES
-  ('polygon_feature', 'map_geom', 'MULTPOLYGON', 4326, 0, 0),
-  ('line_feature', 'map_geom', 'MULTILINESTRING', 4326, 0, 0),
-  ('point_feature', 'map_geom', 'POINT', 4326, 0, 0),
-  ('cross_section', 'line_of_section', 'LINESTRING', 4326, 0, 0),
-  ('ground_control_point', 'map_geom', 'POINT', 4326, 0, 0),
-  ('page_extraction', 'bounds', 'POLYGON', 0, 0, 0);
+  ('polygon_feature', 'geometry', 'MULTIPOLYGON', 4326, 0, 0),
+  ('line_feature', 'geometry', 'MULTILINESTRING', 4326, 0, 0),
+  ('point_feature', 'geometry', 'POINT', 4326, 0, 0),
+  ('cross_section', 'geometry', 'LINESTRING', 4326, 0, 0),
+  ('ground_control_point', 'geometry', 'POINT', 4326, 0, 0),
+  ('page_extraction', 'px_geometry', 'POLYGON', 0, 0, 0);
   -- ('polygon_feature', 'px_geom', 'POLYGON', 0, 0, 0),
   -- ('line_feature', 'px_geom', 'LINESTRING', 0, 0, 0),
   -- ('point_feature', 'px_geom', 'POINT', 0, 0, 0),
