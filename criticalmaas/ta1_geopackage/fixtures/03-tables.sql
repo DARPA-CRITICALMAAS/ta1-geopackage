@@ -225,12 +225,7 @@ INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, 
   ('point_feature', 'geometry', 'POINT', 4326, 0, 0),
   ('cross_section', 'geometry', 'LINESTRING', 4326, 0, 0),
   ('ground_control_point', 'geometry', 'POINT', 4326, 0, 0),
-  ('page_extraction', 'px_geometry', 'POLYGON', 0, 0, 0);
-  -- ('polygon_feature', 'px_geom', 'POLYGON', 0, 0, 0),
-  -- ('line_feature', 'px_geom', 'LINESTRING', 0, 0, 0),
-  -- ('point_feature', 'px_geom', 'POINT', 0, 0, 0),
-  -- ('cross_section', 'px_geom', 'LINESTRING', 0, 0, 0),
-  -- ('ground_control_point', 'px_geom', 'POINT', 0, 0, 0);
+  ('page_extraction', 'px_geometry', 'GEOMETRY', 0, 0, 0);
 
 -- Create an empty geometry_columns table so that Geoalchemy2 doesn't complain
 CREATE TABLE geometry_columns (
