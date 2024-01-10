@@ -68,3 +68,10 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: Path):
     assert res is not None
     assert res.map_geom is not None
     assert res.map_geom == feature
+
+    # Read the feature back from the database with Fiona
+    import fiona
+
+    with fiona.open(str(empty_geopackage), layer="polygon_feature") as src:
+        assert len(src) == 1
+        assert src[0]["geometry"] == shape(feature)
