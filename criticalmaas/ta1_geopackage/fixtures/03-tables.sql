@@ -216,6 +216,7 @@ INSERT INTO gpkg_contents (table_name, data_type, identifier, description)
   ('cross_section', 'features', 'cross_section', 'Lines of section'),
   ('projection_info', 'features', 'projection_info', 'Map projection information'),
   ('ground_control_point', 'features', 'ground_control_point', 'Ground control point'),
+  ('georeference_meta', 'features', 'georeference_meta', 'Georeferencing metadata'),
   ('page_extraction', 'features', 'page_extraction', 'Page extractions');
 
 INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m)
@@ -225,12 +226,8 @@ INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, 
   ('point_feature', 'geometry', 'POINT', 4326, 0, 0),
   ('cross_section', 'geometry', 'LINESTRING', 4326, 0, 0),
   ('ground_control_point', 'geometry', 'POINT', 4326, 0, 0),
-  ('page_extraction', 'px_geometry', 'POLYGON', 0, 0, 0);
-  -- ('polygon_feature', 'px_geom', 'POLYGON', 0, 0, 0),
-  -- ('line_feature', 'px_geom', 'LINESTRING', 0, 0, 0),
-  -- ('point_feature', 'px_geom', 'POINT', 0, 0, 0),
-  -- ('cross_section', 'px_geom', 'LINESTRING', 0, 0, 0),
-  -- ('ground_control_point', 'px_geom', 'POINT', 0, 0, 0);
+  ('georeference_meta', 'bounds', 'POLYGON', 4326, 0, 0),
+  ('page_extraction', 'px_geometry', 'GEOMETRY', 0, 0, 0);
 
 -- Create an empty geometry_columns table so that Geoalchemy2 doesn't complain
 CREATE TABLE geometry_columns (
