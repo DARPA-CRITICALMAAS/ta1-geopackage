@@ -58,7 +58,13 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: Path):
         str(empty_geopackage), "a", driver="GPKG", layer="polygon_feature", schema=None
     ) as src:
         feat = {
-            "properties": {"id": "test", "map_id": "test"},
+            "properties": {
+                "id": "test",
+                "map_id": "test",
+                "type": "test",
+                "confidence": None,
+                "provenance": None,
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": coords,
