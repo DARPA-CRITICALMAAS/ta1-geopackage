@@ -99,15 +99,6 @@ CREATE TABLE point_feature (
   FOREIGN KEY (provenance) REFERENCES enum_provenance_type(name)
 );
 
-/** Note: renamed `extraction_identifier` to `extraction_pointer` for clarity */
-CREATE TABLE extraction_pointer (
-  id TEXT PRIMARY KEY,
-  table_name TEXT NOT NULL, -- model name
-  column_name TEXT NOT NULL, -- field name of the model
-  record_id TEXT NOT NULL, -- ID of the extracted feature
-  FOREIGN KEY (table_name) REFERENCES enum_table_name(name)
-);
-
 CREATE TABLE confidence_scale (
   name TEXT PRIMARY KEY, -- name of the confidence scale
   description TEXT NOT NULL, -- description of the confidence scale
@@ -123,6 +114,49 @@ CREATE TABLE model_run (
   batch_id TEXT, -- batch ID
   map_id TEXT NOT NULL, -- ID of the containing map
   FOREIGN KEY (map_id) REFERENCES map(id)
+);
+
+/** Note: renamed `extraction_identifier` to `extraction_pointer` for clarity */
+CREATE TABLE extraction_pointer (
+  id TEXT PRIMARY KEY,
+  geologic_unit TEXT, -- ID of the extracted geologic unit
+  polygon_feature TEXT, -- ID of the extracted polygon feature
+  polygon_type TEXT, -- ID of the extracted polygon type
+  line_feature TEXT, -- ID of the extracted line feature
+  line_type TEXT, -- ID of the extracted line type
+  point_feature TEXT, -- ID of the extracted point feature
+  point_type TEXT, -- ID of the extracted point type
+  cross_section TEXT, -- ID of the extracted cross section
+  map_metadata TEXT, -- ID of the extracted map metadata
+  georeference_meta TEXT, -- ID of the extracted projection info
+  ground_control_point TEXT, -- ID of the extracted ground control point
+  column_name TEXT, -- field name of the model
+  FOREIGN KEY (geologic_unit) REFERENCES geologic_unit(id),
+  FOREIGN KEY (polygon_feature) REFERENCES polygon_feature(id),
+  FOREIGN KEY (polygon_type) REFERENCES polygon_type(id),
+  FOREIGN KEY (line_feature) REFERENCES line_feature(id),
+  FOREIGN KEY (line_type) REFERENCES line_type(id),
+  FOREIGN KEY (point_feature) REFERENCES point_feature(id),
+  FOREIGN KEY (point_type) REFERENCES point_type(id),
+  FOREIGN KEY (cross_section) REFERENCES cross_section(id),
+  FOREIGN KEY (map_metadata) REFERENCES map_metadata(id),
+  FOREIGN KEY (georeference_meta) REFERENCES georeference_meta(id),
+  FOREIGN KEY (ground_control_point) REFERENCES ground_control_point(id),
+  -- Ensure that ONE AND ONLY ONE of the above table links is not null
+  CHECK (
+      ( geologic_unit IS NOT NULL ) 
+    + ( polygon_feature IS NOT NULL )
+    + ( polygon_type IS NOT NULL )
+    + ( line_feature IS NOT NULL )
+    + ( line_type IS NOT NULL )
+    + ( point_feature IS NOT NULL )
+    + ( point_type IS NOT NULL )
+    + ( cross_section IS NOT NULL )
+    + ( map_metadata IS NOT NULL )
+    + ( georeference_meta IS NOT NULL )
+    + ( ground_control_point IS NOT NULL )
+    = 1
+  )
 );
 
 CREATE TABLE confidence_measurement (

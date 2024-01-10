@@ -80,20 +80,3 @@ INSERT INTO enum_point_type (name) VALUES
   ('other'),
   ('unknown');
 
-/** Extraction identifiers are used to link extractions to the model that produced them. */
-
-CREATE TABLE enum_table_name (
-  name TEXT PRIMARY KEY -- name of the model
-);
-
-INSERT INTO enum_table_name (name) VALUES
-  ('geologic_unit'),
-  ('polygon_feature'),
-  ('polygon_type'),
-  ('line_feature'),
-  ('line_type'),
-  ('point_feature'),
-  ('point_type'),
-  ('cross_section'),
-  ('map_metadata'),
-  ('projection_info');
