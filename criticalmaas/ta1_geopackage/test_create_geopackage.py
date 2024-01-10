@@ -25,14 +25,10 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: GeopackageDatabas
     """
     Write polygon data directly to a GeoPackage file
     """
-    # Recreate the database engine
-    db = empty_geopackage
-    engine = db.engine
 
     # Need to create a map and a polygon type before we do anything,
     # to make sure that foreign keys align
-    run_sql(
-        engine,
+    empty_geopackage.run_sql(
         """
         INSERT INTO map (id, name, source_url, image_url, image_width, image_height)
         VALUES ('test', 'test', 'test', 'test', -1, -1);
@@ -47,30 +43,22 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: GeopackageDatabas
 
     coords = [[[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0), (0.0, 0.0)]]]
 
-    with fiona.open(
-        str(empty_geopackage.file),
-        "a",
-        driver="GPKG",
-        layer="polygon_feature",
-        schema=None,
-        PRELUDE_STATEMENTS="PRAGMA foreign_keys = ON",
-    ) as src:
-        feat = {
-            "properties": {
-                "id": "test",
-                "map_id": "test",
-                "type": "test",
-                "confidence": None,
-                "provenance": None,
-            },
-            "geometry": {
-                "type": "MultiPolygon",
-                "coordinates": coords,
-            },
-        }
-        src.write(feat)
+    feat = {
+        "properties": {
+            "id": "test",
+            "map_id": "test",
+            "type": "test",
+            "confidence": None,
+            "provenance": None,
+        },
+        "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": coords,
+        },
+    }
+    empty_geopackage.write_features("polygon_feature", [feat])
 
-    with fiona.open(str(empty_geopackage.file), layer="polygon_feature") as src:
+    with empty_geopackage.open_layer("polygon_feature") as src:
         assert len(src) == 1
 
         # To successfully read fields, you need to ignore the px_geom field,

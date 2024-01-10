@@ -2,6 +2,8 @@ from pathlib import Path
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from macrostrat.database import Database
+from contextlib import contextmanager
+import fiona
 
 
 class GeopackageDatabase(Database):
@@ -23,6 +25,26 @@ class GeopackageDatabase(Database):
 
         for file in files:
             self.run_sql(file, raise_errors=True)
+
+    def open(self, *, mode: str = "r", **kwargs):
+        return fiona.open(
+            str(self.file),
+            mode=mode,
+            driver="GPKG",
+            PRELUDE_STATEMENTS="PRAGMA foreign_keys = ON",
+            **kwargs,
+        )
+
+    def open_layer(self, layer: str, mode: str = "r", **kwargs):
+        return self.open(
+            layer=layer,
+            mode=mode,
+            **kwargs,
+        )
+
+    def write_features(self, layer: str, features, **kwargs):
+        with self.open_layer(layer, "a", **kwargs) as src:
+            src.writerecords(features)
 
 
 def _enable_foreign_keys(engine: Engine):
