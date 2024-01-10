@@ -47,6 +47,9 @@ and use other tools such as `ogr2ogr` to load data into the database.
 
 ## Differences from TA1 schema
 
+Several changes have been made to the TA1 schema to make it more compatible with the GeoPackage structure.
+
 - `extraction_identifier` -> `extraction_pointer`
 - `model` field has been renamed to `pointer` for clarity for linking models
 - `MapFeatureExtractions` is replaced by many-to-one foreign key relationships directly to the `map` table
+- `line_feature` and `polygon_feature` have been converted to `MultiLineString` and `MultiPolygon` types respectively.

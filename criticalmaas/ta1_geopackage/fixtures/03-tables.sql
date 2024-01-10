@@ -53,8 +53,8 @@ CREATE TABLE line_type (
 CREATE TABLE polygon_feature (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  map_geom POLYGON NOT NULL, -- polygon geometry, world coordinates
-  px_geom POLYGON, -- polygon geometry, pixel coordinates
+  map_geom MULTIPOLYGON NOT NULL, -- polygon geometry, world coordinates
+  px_geom MULTIPOLYGON, -- polygon geometry, pixel coordinates
   type TEXT, -- polygon type information
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
@@ -66,8 +66,8 @@ CREATE TABLE polygon_feature (
 CREATE TABLE line_feature (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
-  map_geom LINESTRING NOT NULL, -- line geometry, world coordinates
-  px_geom LINESTRING, -- line geometry, pixel coordinates
+  map_geom MULTILINESTRING NOT NULL, -- line geometry, world coordinates
+  --px_geom MULTILINESTRING, -- line geometry, pixel coordinates
   name TEXT, -- name of this map feature
   type TEXT, -- line type information
   polarity INTEGER, -- line polarity
@@ -221,8 +221,8 @@ INSERT INTO gpkg_contents (table_name, data_type, identifier, description)
 
 INSERT INTO gpkg_geometry_columns (table_name, column_name, geometry_type_name, srs_id, z, m)
   VALUES
-  ('polygon_feature', 'map_geom', 'POLYGON', 4326, 0, 0),
-  ('line_feature', 'map_geom', 'LINESTRING', 4326, 0, 0),
+  ('polygon_feature', 'map_geom', 'MULTPOLYGON', 4326, 0, 0),
+  ('line_feature', 'map_geom', 'MULTILINESTRING', 4326, 0, 0),
   ('point_feature', 'map_geom', 'POINT', 4326, 0, 0),
   ('cross_section', 'line_of_section', 'LINESTRING', 4326, 0, 0),
   ('ground_control_point', 'map_geom', 'POINT', 4326, 0, 0),
