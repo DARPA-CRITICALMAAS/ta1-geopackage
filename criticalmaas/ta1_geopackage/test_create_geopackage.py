@@ -55,7 +55,12 @@ def test_write_polygon_feature_to_geopackage(empty_geopackage: Path):
     coords = [[[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0), (0.0, 0.0)]]]
 
     with fiona.open(
-        str(empty_geopackage), "a", driver="GPKG", layer="polygon_feature", schema=None
+        str(empty_geopackage),
+        "a",
+        driver="GPKG",
+        layer="polygon_feature",
+        schema=None,
+        PRELUDE_STATEMENTS="PRAGMA foreign_keys = ON",
     ) as src:
         feat = {
             "properties": {

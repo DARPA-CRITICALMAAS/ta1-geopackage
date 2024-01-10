@@ -191,10 +191,11 @@ CREATE TABLE map_metadata (
   id TEXT PRIMARY KEY, -- for internal linking purposes in this file
   map_id TEXT NOT NULL, -- ID of the containing map
   authors TEXT NOT NULL, -- Map authors
+  title TEXT NOT NULL, -- Map title
   publisher TEXT NOT NULL, -- Map publisher
   year INTEGER NOT NULL, -- Map publication year
-  organization TEXT NOT NULL, -- Map organization
-  scale TEXT NOT NULL, -- Map scale
+  organization TEXT, -- Map organization
+  scale TEXT, -- Map scale
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (map_id) REFERENCES map(id),
