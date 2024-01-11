@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "criticalmaas.ta1-geopackage"
-version = "0.1.0"
+version = "0.1.1"
 description = "GeoPackage schema for validating and storing vector geologic map data produced by computer-vision pipelines"
 authors = ["Daven Quinn <code@davenquinn.com>"]
 license = "MIT"
