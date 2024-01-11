@@ -24,7 +24,44 @@ and use other tools such as `ogr2ogr` to load data into the database.
 
 ## Examples
 
-- [bc_kananaskis.gpkg](https://v2.macrostrat.org/maps/234)
+Example maps (output from [Macrostrat's CLI writer](https://github.com/UW-Macrostrat/macrostrat/blob/main/macrostrat-cli/macrostrat_cli/io/criticalmaas/__init__.py)):
+
+- [`bc_kananaskis.gpkg`](https://storage.macrostrat.org/web-assets/criticalmaas/example-files/ta1-geopackage/bc_kananaskis.gpkg): [Kananaskis Lakes, BC/AB](https://v2.macrostrat.org/maps/234), 1.5 MB
+- [`grandcanyon.gpkg`](https://storage.macrostrat.org/web-assets/criticalmaas/example-files/ta1-geopackage/grandcanyon.gpkg): [Grand Canyon, AZ](https://v2.macrostrat.org/maps/34), 11.7 MB
+
+## Usage
+
+```python
+
+from criticalmaas.ta1_geopackage import GeopackageDatabase
+
+db = GeopackageDatabase("my_map.gpkg", crs="EPSG:4326")
+# Can also use "CRITICALMAAS:pixel" for pixel coordinates
+
+# Insert types (required for foreign key constraints)
+db.write_models([
+  db.model.map(id="test", name="test", description="test"),
+  db.model.polygon_type(id="test", name="test", description="test"),
+])
+
+# Read and write features
+feat ={
+    "properties": {
+        "id": "test",
+        "map_id": "test",
+        "type": "test",
+        "confidence": None,
+        "provenance": None,
+    },
+    "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [[[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0), (0.0, 0.0)]]],
+    },
+}
+db.write_features("polygon_feature", [feat])
+```
+
+
 
 ## Ongoing work
 

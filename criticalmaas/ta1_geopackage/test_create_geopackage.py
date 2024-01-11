@@ -6,6 +6,7 @@ from typing import Generator
 import numpy as N
 from fiona.crs import CRS
 from macrostrat.utils import get_logger
+from sqlalchemy.exc import IntegrityError
 
 log = get_logger(__name__)
 
@@ -39,9 +40,44 @@ def test_write_polygon_feature_to_geopackage(gpkg: GeopackageDatabase):
         """,
         raise_errors=True,
     )
-
     # Read and write features
+    _write_test_features(gpkg)
 
+
+def test_failing_enum_constraint(gpkg: GeopackageDatabase):
+    PolygonType = gpkg.model.polygon_type
+
+    models = [
+        PolygonType(id="test", name="nonexistent-type", color="test"),
+    ]
+    try:
+        gpkg.write_models(models)
+        assert False
+    except IntegrityError as exc:
+        assert "FOREIGN KEY constraint failed" in str(exc)
+
+
+def test_write_polygon_feature_automapped(gpkg: GeopackageDatabase):
+    Map = gpkg.model.map
+    PolygonType = gpkg.model.polygon_type
+
+    models = [
+        Map(
+            id="test",
+            name="test",
+            source_url="test",
+            image_url="test",
+            image_width=5000,
+            image_height=5000,
+        ),
+        PolygonType(id="test", name="geologic unit", color="test"),
+    ]
+    gpkg.write_models(models)
+
+    _write_test_features(gpkg)
+
+
+def _write_test_features(gpkg: GeopackageDatabase):
     coords = [[[(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0), (0.0, 0.0)]]]
 
     feat = {
