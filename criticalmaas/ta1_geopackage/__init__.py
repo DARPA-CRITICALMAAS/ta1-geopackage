@@ -22,6 +22,7 @@ class GeopackageDatabase(Database):
         self.file = Path(filename)
         file_exists = self.file.exists()
         should_create = kwargs.pop("create", not file_exists)
+        should_automap = kwargs.pop("automap", True)
         crs = kwargs.pop("crs", None)
 
         url = "sqlite:///" + str(filename)
@@ -34,6 +35,10 @@ class GeopackageDatabase(Database):
                 )
                 crs = "EPSG:4326"
             self.create_fixtures(crs=crs)
+
+        file_exists = self.file.exists()
+        if file_exists and should_automap:
+            self.automap()
 
     def create_fixtures(self, *, crs: any = "EPSG:4326"):
         log.debug(f"Creating fixtures for {self.file}")
@@ -94,6 +99,25 @@ class GeopackageDatabase(Database):
             params={"srs_id": srs_id},
             raise_errors=True,
         )
+
+    ## Various helper functions ##
+
+    def write_models(self, models: list):
+        """Write a set of SQLAlchemy models to the database."""
+        self.session.add_all(models)
+        self.session.commit()
+
+    def enum_values(self, enum_name: str):
+        """Get the values of an enum type."""
+        table_name = "enum_" + enum_name
+        try:
+            model = getattr(self.model, table_name)
+        except AttributeError:
+            raise ValueError(f"Enum type {enum_name} does not exist")
+
+        query = self.session.query(model.name)
+        # Insert the line types
+        return set(query.all())
 
 
 PIXEL_COORDINATE_SYSTEMS = ["CRITICALMAAS:pixel", "CRITICALMAAS:0", "0", 0]
