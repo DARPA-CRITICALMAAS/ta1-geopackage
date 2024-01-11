@@ -3,22 +3,25 @@
 This repository contains the schema definitions and
 a reference Python library for manipulating a GeoPackage-based data transfer format for CriticalMAAS TA1, based on
 the [TA1 output
-schemas](https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta10).  It was
+schemas][ta1_schemas].  It was
 created by the [Macrostrat TA4
 team](https://github.com/UW-Macrostrat/criticalmaas) and will be maintained
 jointly by TA1 and TA4 as the schema is updated.
 
 ## Installation
 
-This Package can be installed directly from GitHub:
+This package is listed as `criticalmaas.ta1-geopackage` on [PyPI][pypi].
+It can be installed with standard Python semantics:
 
 ```bash
 # PIP installation
-pip install git+https://github.com/DARPA-CRITICALMAAS/ta1-geopackage.git
+pip install criticalmaas.ta1-geopackage
 # Poetry
-poetry add git+https://github.com/DARPA-CRITICALMAAS/ta1-geopackage.git
-# etc. for other package managers
+poetry add criticalmaas.ta1-geopackage
 ```
+
+The package can also be installed directly from GitHub, e.g. `pip install git+https://github.com/DARPA-CRITICALMAAS/ta1-geopackage.git`.
+
 If you are not using Python, you can load the schema directly from
 the [`criticalmaas/ta1_geopackage/fixtures`](criticalmaas/ta1_geopackage/fixtures) directory,
 and use other tools such as `ogr2ogr` to load data into the database.
@@ -83,8 +86,8 @@ See the [tests][tests] and the [Macrostrat CLI writer][macrostrat_writer] for mo
 - [x] Example datasets
 - [x] Example script for dumping a Macrostrat map
 - [x] Schema adjustments and improvements (see [tracking issue][change-tracking-issue])
+- [x] Make the package available as `criticalmass.ta1_geopackage` on PyPI.
 - [ ] Create example of writing `page_extraction`s with pixel coordinates
-- [ ] Make the package available as `criticalmass.ta1_geopackage` on PyPI.
 
 ## Resources
 
@@ -103,3 +106,5 @@ See the [tests][tests] and the [Macrostrat CLI writer][macrostrat_writer] for mo
 [macrostrat_writer]: https://github.com/UW-Macrostrat/macrostrat/blob/main/macrostrat-cli/macrostrat_cli/io/criticalmaas/__init__.py
 [tests]: criticalmaas/ta1_geopackage/test_create_geopackage.py
 [change-tracking-issue]: https://github.com/DARPA-CRITICALMAAS/ta1-geopackage/issues/3
+[pypi]: https://pypi.org/project/criticalmaas.ta1-geopackage/
+[ta1_schemas]: https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta1
