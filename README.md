@@ -1,4 +1,4 @@
-# TA1 GeoPackage library
+# CriticalMAAS TA1 geopackage library
 
 This repository contains the schema definitions and
 a reference Python library for manipulating a GeoPackage-based data transfer format for CriticalMAAS TA1, based on
