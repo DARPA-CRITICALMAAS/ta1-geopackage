@@ -1,11 +1,12 @@
-# TA1 GeoPackage format
+# TA1 GeoPackage library
 
-This is a starting point for a GeoPackage format for CriticalMAAS TA1. It is based on the
-[TA1 output schemas](https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta10).
-The initial version was created on 2023-12-14 by Daven Quinn (Macrostrat).
-It will be maintained jointly by TA1 and TA4 as the schema is updated.
-
-![Schema diagram](diagram/schema-diagram.png)
+This repository contains the schema definitions and
+a reference Python library for manipulating a GeoPackage-based data transfer format for CriticalMAAS TA1, based on
+the [TA1 output
+schemas](https://github.com/DARPA-CRITICALMAAS/schemas/tree/main/ta10).  It was
+created by the [Macrostrat TA4
+team](https://github.com/UW-Macrostrat/criticalmaas) and will be maintained
+jointly by TA1 and TA4 as the schema is updated.
 
 ## Installation
 
@@ -24,19 +25,27 @@ and use other tools such as `ogr2ogr` to load data into the database.
 
 ## Examples
 
-Example maps (output from [Macrostrat's CLI writer](https://github.com/UW-Macrostrat/macrostrat/blob/main/macrostrat-cli/macrostrat_cli/io/criticalmaas/__init__.py)):
+Example maps (output from [Macrostrat's CLI writer][macrostrat_writer]):
 
 - [`bc_kananaskis.gpkg`](https://storage.macrostrat.org/web-assets/criticalmaas/example-files/ta1-geopackage/bc_kananaskis.gpkg): [Kananaskis Lakes, BC/AB](https://v2.macrostrat.org/maps/234), 1.5 MB
 - [`grandcanyon.gpkg`](https://storage.macrostrat.org/web-assets/criticalmaas/example-files/ta1-geopackage/grandcanyon.gpkg): [Grand Canyon, AZ](https://v2.macrostrat.org/maps/34), 11.7 MB
 
+At the moment, these only show final feature datasets (e.g. `polygon_feature`) for digital-native maps. Examples of
+TA1 output for raster-based maps will be added soon.
+
 ## Usage
+
+Basic usage is as follows:
 
 ```python
 
 from criticalmaas.ta1_geopackage import GeopackageDatabase
 
-db = GeopackageDatabase("my_map.gpkg", crs="EPSG:4326")
-# Can also use "CRITICALMAAS:pixel" for pixel coordinates
+db = GeopackageDatabase(
+  "my_map.gpkg",
+  crs="EPSG:4326" # Geographic coordinates (default)
+  # crs="CRITICALMAAS:pixel" # Pixel coordinates
+)
 
 # Insert types (required for foreign key constraints)
 db.write_models([
@@ -44,8 +53,8 @@ db.write_models([
   db.model.polygon_type(id="test", name="test", description="test"),
 ])
 
-# Read and write features
-feat ={
+# Write features
+feat = {
     "properties": {
         "id": "test",
         "map_id": "test",
@@ -61,15 +70,20 @@ feat ={
 db.write_features("polygon_feature", [feat])
 ```
 
+See the [tests][tests] and the [Macrostrat CLI writer][macrostrat_writer] for more examples.
 
+## Schema
+
+![Schema diagram](diagram/schema-diagram.png)
 
 ## Ongoing work
 
 - [x] Tests with geographic data
 - [x] Helpers for working with multiple projections
-- [ ] Example datasets
-- [ ] Example script for dumping a Macrostrat map
-- [ ] Schema adjustments and improvements.
+- [x] Example datasets
+- [x] Example script for dumping a Macrostrat map
+- [x] Schema adjustments and improvements (see [tracking issue][change-tracking-issue])
+- [ ] Create example of writing `page_extraction`s with pixel coordinates
 - [ ] Make the package available as `criticalmass.ta1_geopackage` on PyPI.
 
 ## Resources
@@ -80,12 +94,12 @@ db.write_features("polygon_feature", [feat])
 
 ## Prior art
 
-- [Fudgeo](https://github.com/realiii/fudgeo): modern Python package for working with GeoPackages. Duplicates many features of more common
-  packages like `fiona` and `geopandas` but provides low-level access to the GeoPackage spec.
 - [Fiona](https://fiona.readthedocs.io/en/stable/): A python library for working with geospatial vector data.
 - [GeoPandas](https://geopandas.org/): A python library for working with geospatial vector data.
 - [GeoAlchemy 2](https://geoalchemy-2.readthedocs.io/en/latest/): A python library for interfacing in PostGIS, Spatialite, and GeoPackage.
+- [Fudgeo](https://github.com/realiii/fudgeo): modern Python package for working with GeoPackages. Duplicates many features of more common
+  packages like `fiona` and `geopandas` but provides low-level access to the GeoPackage spec.
 
-## Differences from TA1 schema
-
-Several changes have been made to the TA1 schema to make it more compatible with the GeoPackage structure. See [the tracking issue](https://github.com/DARPA-CRITICALMAAS/ta1-geopackage/issues/3) for more information.
+[macrostrat_writer]: https://github.com/UW-Macrostrat/macrostrat/blob/main/macrostrat-cli/macrostrat_cli/io/criticalmaas/__init__.py
+[tests]: criticalmaas/ta1_geopackage/test_create_geopackage.py
+[change-tracking-issue]: https://github.com/DARPA-CRITICALMAAS/ta1-geopackage/issues/3
