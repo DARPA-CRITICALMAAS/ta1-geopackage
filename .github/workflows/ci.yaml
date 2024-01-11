@@ -10,12 +10,13 @@ on:
 
 jobs:
   ci:
+    name: Continuous integration tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install Python
         uses: actions/setup-python@v4
-      - name: Install poetry
+      - name: Install Poetry
         uses: abatilo/actions-poetry@v2
       - name: Setup a local virtual environment (if no poetry.toml file)
         run: |
@@ -28,5 +29,5 @@ jobs:
           key: venv-${{ hashFiles('poetry.lock') }}
       - name: Install the project dependencies
         run: poetry install
-      - name: Run the automated tests (for example)
+      - name: Run the automated tests
         run: poetry run pytest -v criticalmaas/
