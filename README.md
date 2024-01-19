@@ -103,7 +103,7 @@ See the [tests][tests] and the [Macrostrat CLI writer][macrostrat_writer] for mo
 - [Fudgeo](https://github.com/realiii/fudgeo): modern Python package for working with GeoPackages. Duplicates many features of more common
   packages like `fiona` and `geopandas` but provides low-level access to the GeoPackage spec.
 
-[macrostrat_writer]: https://github.com/UW-Macrostrat/macrostrat/blob/main/macrostrat-cli/macrostrat_cli/io/criticalmaas/__init__.py
+[macrostrat_writer]: https://github.com/UW-Macrostrat/macrostrat/blob/main/cli/macrostrat_cli/io/criticalmaas/__init__.py
 [tests]: criticalmaas/ta1_geopackage/test_create_geopackage.py
 [change-tracking-issue]: https://github.com/DARPA-CRITICALMAAS/ta1-geopackage/issues/3
 [pypi]: https://pypi.org/project/criticalmaas.ta1-geopackage/
