@@ -5,10 +5,23 @@ from shapely.geometry import MultiPolygon
 from . import GeopackageDatabase
 
 
-def test_write_pandas(gpkg: GeopackageDatabase):
+def test_write_pandas(empty_gpkg: GeopackageDatabase):
     """Pandas provides a quicker way to write records to a GeoPackage.
     To use this, it is recommended to create all records and write them all at once.
     """
+    gpkg = empty_gpkg
+
+    map = {
+        "id": "test",
+        "name": "test",
+        "source_url": "test",
+        "image_url": "test",
+        "image_width": 5000,
+        "image_height": 5000,
+    }
+
+    map_df = DataFrame([map])
+    map_df.to_sql("map", gpkg.engine, if_exists="append", index=False)
 
     # Records to be written
     dtype = {
