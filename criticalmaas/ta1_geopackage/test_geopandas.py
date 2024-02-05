@@ -1,9 +1,6 @@
-import sqlite3
-from pathlib import Path
-
 from geopandas import GeoDataFrame
 from pandas import DataFrame
-from shapely.geometry import Polygon
+from shapely.geometry import MultiPolygon
 
 from . import GeopackageDatabase
 
@@ -31,7 +28,7 @@ def test_write_pandas(gpkg: GeopackageDatabase):
             "type": "test",
             "confidence": None,
             "provenance": None,
-            "geometry": Polygon([(0.0, 0.0), (0.0, i), (i, i), (i, 0.0)]),
+            "geometry": MultiPolygon([[[(0.0, 0.0), (0.0, i), (i, i), (i, 0.0)]]]),
         }
         for i in range(100)
     ]
@@ -39,7 +36,13 @@ def test_write_pandas(gpkg: GeopackageDatabase):
     df = DataFrame(polygon_recs)
     gdf = GeoDataFrame(df, crs="EPSG:4326")
 
-    gdf.to_file(gpkg.file, layer="polygon_feature", driver="GPKG", append=True)
+    gdf.to_file(
+        gpkg.file,
+        layer="polygon_feature",
+        driver="GPKG",
+        mode="a",
+        promote_to_multi=True,
+    )
 
 
 def test_write_nonconforming_data(gpkg: GeopackageDatabase):
@@ -47,26 +50,32 @@ def test_write_nonconforming_data(gpkg: GeopackageDatabase):
     if the data does not conform to the schema.
     """
     polygon_rec = {
-        "id": "testzzz",
-        "type": "test",
+        "id": "zoomer",
+        "type": "dishware",
+        "map_id": "squiggle",
         "confidence": None,
         "provenance": None,
-        "geometry": Polygon([(0.0, 0.0), (0.0, 2), (2, 2), (2, 0.0)]),
+        "geometry": MultiPolygon([[[(0.0, 0.0), (0.0, 2), (2, 2), (2, 0.0)]]]),
     }
 
     df = DataFrame([polygon_rec])
     gdf = GeoDataFrame(df, crs="EPSG:4326")
 
-    gdf.to_file(gpkg.file, layer="polygon_feature", driver="GPKG", append=True)
+    gdf.to_file(
+        gpkg.file,
+        driver="GPKG",
+        mode="a",
+        layer="polygon_feature",
+        promote_to_multi=True,
+    )
 
-    # Copy file to accessible location
-    import shutil
+    # Load dataframe
+    gdf_res = GeoDataFrame.from_file(gpkg.file, layer="polygon_feature")
 
-    here = Path(__file__).parent
+    assert len(gdf_res) == 1
+    assert gdf_res.iloc[0]["id"] == "zoomer"
 
-    shutil.copy(gpkg.file, here / "test.gpkg")
-
-    # Manually check foreign key constraints
+    # Manually check foreign key constraints, finding failures
     with gpkg.engine.connect() as conn:
         result = conn.exec_driver_sql("PRAGMA foreign_key_check(polygon_feature)")
-        assert len(result.fetchall()) > 0
+        assert len(result.fetchall()) == 2
