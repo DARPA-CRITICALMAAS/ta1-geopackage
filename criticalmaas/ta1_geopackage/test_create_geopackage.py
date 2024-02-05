@@ -1,35 +1,57 @@
 from pathlib import Path
-from macrostrat.utils import working_directory
-from . import GeopackageDatabase
-from pytest import fixture
+from shutil import copyfile
+from tempfile import TemporaryDirectory
 from typing import Generator
+
 import numpy as N
 from fiona.crs import CRS
-from macrostrat.utils import get_logger
+from macrostrat.utils import get_logger, working_directory
+from pytest import fixture
 from sqlalchemy.exc import IntegrityError
+
+from . import GeopackageDatabase
 
 log = get_logger(__name__)
 
 
-@fixture(scope="function")
-def gpkg(tmp_path: Path) -> Generator[GeopackageDatabase, None, None]:
-    with working_directory(str(tmp_path)):
-        db = GeopackageDatabase(tmp_path / "test.gpkg", crs="EPSG:4326")
+@fixture(scope="session")
+def _empty_gpkg() -> Generator[GeopackageDatabase, None, None]:
+    with TemporaryDirectory() as tempdir:
+        db = GeopackageDatabase(Path(tempdir) / "test.gpkg", crs="EPSG:4326")
         yield db
 
 
-def tests_geopackage_file_creation(gpkg: GeopackageDatabase):
-    """Create temporary geopackage file and check that it exists."""
-    assert gpkg.file.exists()
+@fixture(scope="function")
+def empty_gpkg(_empty_gpkg) -> Generator[GeopackageDatabase, None, None]:
+    new_path = _empty_gpkg.file.with_name("empty.gpkg")
+    copyfile(_empty_gpkg.file, new_path)
+    new_gpkg = GeopackageDatabase(new_path)
+    yield new_gpkg
 
 
-def test_write_polygon_feature_to_geopackage(gpkg: GeopackageDatabase):
-    """
-    Write polygon data directly to a GeoPackage file
-    """
+@fixture(scope="session")
+def base_gpkg(
+    _empty_gpkg: GeopackageDatabase,
+) -> Generator[GeopackageDatabase, None, None]:
+    new_path = _empty_gpkg.file.with_name("test-with-features.gpkg")
+    copyfile(_empty_gpkg.file, new_path)
 
-    # Need to create a map and a polygon type before we do anything,
-    # to make sure that foreign keys align
+    new_gpkg = GeopackageDatabase(new_path)
+
+    _write_test_types(new_gpkg)
+    yield new_gpkg
+
+
+@fixture(scope="function")
+def gpkg(base_gpkg: GeopackageDatabase) -> Generator[GeopackageDatabase, None, None]:
+    new_path = base_gpkg.file.with_name("test-current.gpkg")
+    copyfile(base_gpkg.file, new_path)
+    new_gpkg = GeopackageDatabase(new_path)
+    yield new_gpkg
+    new_gpkg.file.unlink()
+
+
+def _write_test_types(gpkg: GeopackageDatabase):
     gpkg.run_sql(
         """
         INSERT INTO map (id, name, source_url, image_url, image_width, image_height)
@@ -40,11 +62,26 @@ def test_write_polygon_feature_to_geopackage(gpkg: GeopackageDatabase):
         """,
         raise_errors=True,
     )
+
+
+def tests_geopackage_file_creation(empty_gpkg: GeopackageDatabase):
+    """Create temporary geopackage file and check that it exists."""
+    assert empty_gpkg.file.exists()
+
+
+def test_write_polygon_feature_to_geopackage(base_gpkg: GeopackageDatabase):
+    """
+    Write polygon data directly to a GeoPackage file
+    """
+
+    # Need to create a map and a polygon type before we do anything,
+    # to make sure that foreign keys align
     # Read and write features
-    _write_test_features(gpkg)
+    _write_test_features(base_gpkg)
 
 
-def test_failing_enum_constraint(gpkg: GeopackageDatabase):
+def test_failing_enum_constraint(empty_gpkg: GeopackageDatabase):
+    gpkg = empty_gpkg
     PolygonType = gpkg.model.polygon_type
 
     models = [
@@ -57,7 +94,8 @@ def test_failing_enum_constraint(gpkg: GeopackageDatabase):
         assert "FOREIGN KEY constraint failed" in str(exc)
 
 
-def test_write_polygon_feature_automapped(gpkg: GeopackageDatabase):
+def test_write_polygon_feature_automapped(empty_gpkg: GeopackageDatabase):
+    gpkg = empty_gpkg
     Map = gpkg.model.map
     PolygonType = gpkg.model.polygon_type
 
