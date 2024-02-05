@@ -1,12 +1,12 @@
 from pathlib import Path
+from warnings import warn
+
+import fiona
+from fiona.crs import CRS
+from macrostrat.database import Database
+from macrostrat.utils import get_logger
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
-from macrostrat.database import Database
-from fiona.crs import CRS
-from warnings import warn
-import fiona
-
-from macrostrat.utils import get_logger
 
 log = get_logger(__name__)
 
