@@ -1,11 +1,13 @@
 from geopandas import GeoDataFrame
 from pandas import DataFrame
+from pytest import mark
 from shapely.geometry import MultiPolygon
 
 from . import GeopackageDatabase
 
 
-def test_write_pandas(empty_gpkg: GeopackageDatabase):
+@mark.parametrize("engine", ["fiona", "pyogrio"])
+def test_write_pandas(empty_gpkg: GeopackageDatabase, engine: str):
     """Pandas provides a quicker way to write records to a GeoPackage.
     To use this, it is recommended to create all records and write them all at once.
     """
@@ -54,11 +56,13 @@ def test_write_pandas(empty_gpkg: GeopackageDatabase):
         layer="polygon_feature",
         driver="GPKG",
         mode="a",
+        engine=engine,
         promote_to_multi=True,
     )
 
 
-def test_write_nonconforming_data(gpkg: GeopackageDatabase):
+@mark.parametrize("engine", ["fiona", "pyogrio"])
+def test_write_nonconforming_data(gpkg: GeopackageDatabase, engine: str):
     """This test is to demonstrate that the GeoPackageDatabase will raise an error
     if the data does not conform to the schema.
     """
@@ -79,6 +83,7 @@ def test_write_nonconforming_data(gpkg: GeopackageDatabase):
         driver="GPKG",
         mode="a",
         layer="polygon_feature",
+        engine=engine,
         promote_to_multi=True,
     )
 
