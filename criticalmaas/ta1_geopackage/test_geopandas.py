@@ -3,7 +3,7 @@ from pandas import DataFrame
 from pytest import mark
 from shapely.geometry import MultiPolygon
 
-from . import GeopackageDatabase
+from .core import GeopackageDatabase
 
 test_map_data = {
     "id": "test",

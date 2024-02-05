@@ -6,7 +6,7 @@ from typing import Generator
 from macrostrat.utils import get_logger
 from pytest import fixture
 
-from . import GeopackageDatabase
+from .core import GeopackageDatabase
 
 log = get_logger(__name__)
 

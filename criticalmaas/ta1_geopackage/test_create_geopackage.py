@@ -1,15 +1,9 @@
-from pathlib import Path
-from shutil import copyfile
-from tempfile import TemporaryDirectory
-from typing import Generator
-
 import numpy as N
 from fiona.crs import CRS
-from macrostrat.utils import get_logger, working_directory
-from pytest import fixture
+from macrostrat.utils import get_logger
 from sqlalchemy.exc import IntegrityError
 
-from . import GeopackageDatabase
+from .core import GeopackageDatabase
 
 log = get_logger(__name__)
 
