@@ -5,24 +5,24 @@ from shapely.geometry import MultiPolygon
 
 from . import GeopackageDatabase
 
+test_map_data = {
+    "id": "test",
+    "name": "test",
+    "source_url": "test",
+    "image_url": "test",
+    "image_width": 5000,
+    "image_height": 5000,
+}
+
 
 @mark.parametrize("engine", ["fiona", "pyogrio"])
-def test_write_pandas(empty_gpkg: GeopackageDatabase, engine: str):
+def test_write_pandas_lowlevel(empty_gpkg: GeopackageDatabase, engine: str):
     """Pandas provides a quicker way to write records to a GeoPackage.
     To use this, it is recommended to create all records and write them all at once.
     """
     gpkg = empty_gpkg
 
-    map = {
-        "id": "test",
-        "name": "test",
-        "source_url": "test",
-        "image_url": "test",
-        "image_width": 5000,
-        "image_height": 5000,
-    }
-
-    map_df = DataFrame([map])
+    map_df = DataFrame([test_map_data])
     map_df.to_sql("map", gpkg.engine, if_exists="append", index=False)
 
     # Records to be written
@@ -113,17 +113,7 @@ def test_write_pandas_basic(empty_gpkg: GeopackageDatabase):
     """Pandas provides a quicker way to write records to a GeoPackage.
     To use this, it is recommended to create all records and write them all at once.
     """
-
-    map = {
-        "id": "test",
-        "name": "test",
-        "source_url": "test",
-        "image_url": "test",
-        "image_width": 5000,
-        "image_height": 5000,
-    }
-
-    map_df = DataFrame([map])
+    map_df = DataFrame([test_map_data])
     empty_gpkg.write_dataframe(map_df, "map")
 
 
