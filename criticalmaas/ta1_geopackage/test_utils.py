@@ -11,6 +11,11 @@ from .core import GeopackageDatabase
 log = get_logger(__name__)
 
 
+def copy_geopackage(gpkg: GeopackageDatabase, new_path: Path) -> GeopackageDatabase:
+    copyfile(gpkg.file, new_path)
+    return GeopackageDatabase(new_path)
+
+
 @fixture(scope="session")
 def _empty_gpkg() -> Generator[GeopackageDatabase, None, None]:
     with TemporaryDirectory() as tempdir:
@@ -21,9 +26,7 @@ def _empty_gpkg() -> Generator[GeopackageDatabase, None, None]:
 @fixture(scope="function")
 def empty_gpkg(_empty_gpkg) -> Generator[GeopackageDatabase, None, None]:
     new_path = _empty_gpkg.file.with_name("empty.gpkg")
-    copyfile(_empty_gpkg.file, new_path)
-    new_gpkg = GeopackageDatabase(new_path)
-    yield new_gpkg
+    yield copy_geopackage(_empty_gpkg, new_path)
 
 
 @fixture(scope="session")
@@ -31,9 +34,7 @@ def _base_gpkg(
     _empty_gpkg: GeopackageDatabase,
 ) -> Generator[GeopackageDatabase, None, None]:
     new_path = _empty_gpkg.file.with_name("test-with-features.gpkg")
-    copyfile(_empty_gpkg.file, new_path)
-
-    new_gpkg = GeopackageDatabase(new_path)
+    new_gpkg = copy_geopackage(_empty_gpkg, new_path)
 
     _write_test_types(new_gpkg)
     yield new_gpkg
@@ -42,8 +43,7 @@ def _base_gpkg(
 @fixture(scope="function")
 def gpkg(_base_gpkg: GeopackageDatabase) -> Generator[GeopackageDatabase, None, None]:
     new_path = _base_gpkg.file.with_name("test-current.gpkg")
-    copyfile(_base_gpkg.file, new_path)
-    new_gpkg = GeopackageDatabase(new_path)
+    new_gpkg = copy_geopackage(_base_gpkg, new_path)
     yield new_gpkg
     new_gpkg.file.unlink()
 
