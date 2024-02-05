@@ -315,13 +315,13 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "macrostrat-database"
-version = "3.0.0"
+version = "3.1.2"
 description = "A SQLAlchemy-based database toolkit."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "macrostrat_database-3.0.0-py3-none-any.whl", hash = "sha256:19a88fbf46da453be892652ab1dd8d21ff6809242a6a32167a8ace69ed59bc81"},
-    {file = "macrostrat_database-3.0.0.tar.gz", hash = "sha256:fa927c4c74f692083fcb130c5c41cb14be7a0666ab4c6d203d7f13327ebffb68"},
+    {file = "macrostrat_database-3.1.2-py3-none-any.whl", hash = "sha256:481ef7d7696c5e7cb3d537ca4e178eba97423b44dddb01af5bc2729eb89c90a4"},
+    {file = "macrostrat_database-3.1.2.tar.gz", hash = "sha256:92d9e61c24428dcd485fa174e731e2da181de7b0e02c43027c82bf48e483ca21"},
 ]
 
 [package.dependencies]
@@ -1127,4 +1127,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d334f900cd1838f3e7cb31447182846d0860fad7323a788d0acef407e68ba535"
+content-hash = "15bedf079bccb56c773cd82cc7c281cffe571fd379ea5d0aa75ee4b1f648043f"

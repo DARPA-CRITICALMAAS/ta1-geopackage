@@ -1,10 +1,13 @@
 from pathlib import Path
+from typing import Optional
 from warnings import warn
 
 import fiona
 from fiona.crs import CRS
+from geopandas import GeoDataFrame
 from macrostrat.database import Database
 from macrostrat.utils import get_logger
+from pandas import DataFrame, read_sql_table
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
@@ -119,6 +122,48 @@ class GeopackageDatabase(Database):
         # Insert the line types
         return set(query.all())
 
+    def check_constraints(self, table_name: str):
+        # Manually check foreign key constraints, raising error on failure
+        with self.engine.connect() as conn:
+            result = conn.exec_driver_sql(
+                f"PRAGMA foreign_key_check({table_name})",
+            )
+            errors = result.fetchall()
+            n_errors = len(errors)
+            if n_errors > 0:
+                raise ForeignKeyError(table_name, errors)
+            log.info(f"Foreign key constraints passed for {table_name}")
+
+    def get_dataframe(
+        self, table: str, *, use_geopandas: Optional[bool] = None, **kwargs
+    ):
+        """Convenience method to get a dataframe (or GeoDataFrame) from a table in the database."""
+
+        if use_geopandas is None:
+            res = self.run_query(
+                "SELECT count(*) FROM gpkg_contents WHERE table_name = :table_name",
+                {"table_name": table},
+            ).scalar()
+            use_geopandas = res > 0
+
+        if not use_geopandas:
+            return read_sql_table(table, self.engine, **kwargs)
+
+        return GeoDataFrame.from_file(self.file, layer=table, **kwargs)
+
+    def write_dataframe(self, df: GeoDataFrame | DataFrame, table: str, **kwargs):
+        """Write a dataframe to the database."""
+        check_constraints = kwargs.pop("check_constraints", True)
+        if isinstance(df, GeoDataFrame):
+            kwargs.setdefault("driver", "GPKG")
+            kwargs.setdefault("promote_to_multi", True)
+            df.to_file(self.file, layer=table, mode="a", **kwargs)
+        else:
+            df.to_sql(table, self.engine, if_exists="append", index=False)
+        if check_constraints:
+            # We have to check the constraints ourselves sometimes
+            self.check_constraints(table)
+
 
 PIXEL_COORDINATE_SYSTEMS = ["CRITICALMAAS:pixel", "CRITICALMAAS:0", "0", 0]
 
@@ -129,3 +174,14 @@ def _enable_foreign_keys(engine: Engine):
 
 def _fk_pragma_on_connect(dbapi_con, con_record):
     dbapi_con.execute("pragma foreign_keys=ON")
+
+
+class GeopackageError(ValueError):
+    pass
+
+
+class ForeignKeyError(GeopackageError):
+    def __init__(self, table: str, errors: list[tuple[str, str, str]]):
+        self.errors = errors
+        self.table = table
+        super().__init__("Foreign key constraints failed")
