@@ -2,6 +2,7 @@ from datetime import datetime
 
 import numpy as N
 from fiona.crs import CRS
+from geopandas import GeoDataFrame
 from macrostrat.utils import get_logger
 from shapely.geometry import MultiPolygon
 
@@ -52,20 +53,19 @@ def test_write_page_extraction(gpkg: GeopackageDatabase):
 
     geom = MultiPolygon([[[(0.0, 0.0), (0.0, 1), (1, 1), (1, 0.0)]]])
 
-    db.write_models(
-        [
-            # page extraction, DOES NOT WORK
-            db.model.page_extraction(
-                id="page_extraction123",
-                name="my_extraction",
-                pointer="extraction_id123",
-                model_run="model_run_id123",
-                ocr_text=None,
-                color_estimation=None,
-                px_geometry=geom,
-                bounds=None,
-                confidence=None,
-                provenance="modelled",
-            )
-        ]
+    record = dict(
+        id="page_extraction123",
+        name="my_extraction",
+        pointer="extraction_id123",
+        model_run="model_run_id123",
+        ocr_text=None,
+        color_estimation=None,
+        px_geometry=geom,
+        bounds="this is redundant with px_geometry and not used; maybe we should remove the field or at least allow it to be null?",
+        confidence=None,
+        provenance="modelled",
     )
+
+    df = GeoDataFrame([record], geometry="px_geometry")
+
+    db.write_dataframe(df, "page_extraction")
