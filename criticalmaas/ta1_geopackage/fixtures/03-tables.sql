@@ -146,7 +146,7 @@ CREATE TABLE page_extraction (
   ocr_text TEXT, -- OCR text of the page extraction
   color_estimation TEXT, -- color estimation
   px_geometry GEOMETRY, -- geometry of the page extraction, in pixel coordinates
-  bounds TEXT NOT NULL, -- bounds of the page extraction, in pixel coordinates
+  bounds TEXT, -- bounds of the page extraction, in pixel coordinates
   confidence REAL, -- confidence associated with this extraction
   provenance TEXT, -- provenance for this extraction
   FOREIGN KEY (pointer) REFERENCES extraction_pointer(id),
