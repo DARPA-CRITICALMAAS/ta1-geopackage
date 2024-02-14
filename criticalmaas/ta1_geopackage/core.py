@@ -147,7 +147,7 @@ class GeopackageDatabase(Database):
             use_geopandas = res > 0
 
         if not use_geopandas:
-            return read_sql_table(table, self.engine, **kwargs)
+            return read_sql_table(table, self.engine.connect(), **kwargs)
 
         return GeoDataFrame.from_file(self.file, layer=table, **kwargs)
 
