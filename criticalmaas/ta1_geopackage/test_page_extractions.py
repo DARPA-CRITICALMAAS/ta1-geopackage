@@ -61,7 +61,7 @@ def test_write_page_extraction(gpkg: GeopackageDatabase):
         ocr_text=None,
         color_estimation=None,
         px_geometry=geom,
-        bounds="this is redundant with px_geometry and not used; maybe we should remove the field or at least allow it to be null?",
+        bounds=None,
         confidence=None,
         provenance="modelled",
     )
