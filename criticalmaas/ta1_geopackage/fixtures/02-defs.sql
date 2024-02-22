@@ -47,6 +47,7 @@ INSERT INTO enum_line_type (name) VALUES
   ('dike'),
   ('escarpment'),
   ('fold'),
+  ('vein'),
   ('other'),
   ('unknown');
 
@@ -66,7 +67,17 @@ CREATE TABLE enum_point_type (
 
 INSERT INTO enum_point_type (name) VALUES
   ('bedding'),
+  ('inclined bedding'),
+  ('horizontal bedding'),
+  ('vertical bedding'),
+  ('overturned bedding'),
+  ('inclined flow banding'),
+  ('horizontal flow banding'),
+  ('vertical flow banding'),
   ('foliation'),
+  ('inclined metamorphic'),
+  ('horizontal metamorphic'),
+  ('vertical metamorphic'),
   ('lineation'),
   ('joint'),
   ('fault'),
@@ -75,8 +86,14 @@ INSERT INTO enum_point_type (name) VALUES
   ('sample location'),
   ('outcrop'),
   ('mine site'),
+  ('mine shaft'),
   ('contact'),
   ('cleavage'),
+  ('drill hole'),
+  ('gravel pit'),
+  ('prospect'),
+  ('quarry'),
+  ('mine tunnel'),
   ('other'),
   ('unknown');
 
